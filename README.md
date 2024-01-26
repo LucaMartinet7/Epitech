@@ -7,10 +7,10 @@ IF YOU GET CAUGHT COPYING MY CODE I WILL FIND YOU CAUSE IM NOT GETTING FUCKED OV
 # Tek1
 These are all my Tek1 projects. Some work and other don't Good Luck.
 
-# - Sem1 Projects - [Tek1/Sem1](Tek1/Sem1)
+## - Sem1 Projects - [Tek1/Sem1](Tek1/Sem1)
 
 
-## - CPE - [Tek1/Sem1/CPE](Tek1/Sem1/CPE)
+### - CPE - [Tek1/Sem1/CPE](Tek1/Sem1/CPE)
 ```plaintext
 CPE
 ├── Antman
@@ -18,7 +18,7 @@ CPE
 └── BSQ
     ├── ...
 ```
-## - Graphical - [Tek1/Sem1/Graphical](Tek1/Sem1/Graphical)
+### - Graphical - [Tek1/Sem1/Graphical](Tek1/Sem1/Graphical)
 ```plaintext
 Graphical
 ├── My Hunter
@@ -27,7 +27,7 @@ Graphical
     ├── ...
 ```
 
-## - Math - [Tek1/Sem1/Math](Tek1/Sem1/Graphical)
+### - Math - [Tek1/Sem1/Math](Tek1/Sem1/Graphical)
 ```plaintext
 Math
 ├── 101Pong
@@ -40,7 +40,7 @@ Math
     └── 105torus
 ```
 
-## - PSU - [Tek1/Sem1/PSU](Tek1/Sem1/PSU)
+### - PSU - [Tek1/Sem1/PSU](Tek1/Sem1/PSU)
 ```plaintext
 ├── myLs
 │   ├── ...
@@ -50,7 +50,7 @@ Math
     ├── ...
 ```
 
-## - Synthese Projects - [Tek1/Synthese](Tek1/Synthese)
+### - Synthese Projects - [Tek1/Synthese](Tek1/Synthese)
 ```plaintext
 Synthese
 ├── Automakefile
@@ -67,4 +67,4 @@ Synthese
 └── SbmlParser
     ├── ...
 ```
-# - Sem2 Projects - [Tek1/Sem2](Tek1/Sem2)
+## - Sem2 Projects - [Tek1/Sem2](Tek1/Sem2)

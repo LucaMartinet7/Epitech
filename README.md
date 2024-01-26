@@ -7,6 +7,5 @@ IF YOU GET CAUGHT COPYING MY CODE I WILL FIND YOU CAUSE IM NOT GETTING FUCKED OV
 # Tek1
 These are all my Tek1 projects. Some work and other don't Good Luck.
 
-## Sem1
-
-### CPE
+## - Sem1 Projects -
+### [Tek1/Sem1](Tek1/Sem1)

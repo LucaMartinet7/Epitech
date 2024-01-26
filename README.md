@@ -9,3 +9,9 @@ These are all my Tek1 projects. Some work and other don't Good Luck.
 
 ## - Sem1 Projects -
 ### [Tek1/Sem1](Tek1/Sem1)
+
+## - Sem2 Projects -
+### [Tek1/Sem2](Tek1/Sem2)
+
+## - Synthese Projects -
+### [Tek1/Synthese](Tek1/Synthese)

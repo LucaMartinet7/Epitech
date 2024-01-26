@@ -1,0 +1,10 @@
+
+
+1 - Open the file to be compressed using the "open" function.
+2 - Read the contents of the file into a buffer using the "read" function and "malloc" function to allocate memory for the buffer.
+3 - Perform a compression algorithm on the buffer, such as run-length encoding or Huffman coding.
+4 - Open a new file for the compressed data using the "open" function.
+5 - Write the compressed data to the new file using the "write" function.
+6 - Close both the original and new files using the "close" function.
+7 - Free the memory allocated for the buffer using the "free" function.
+8 - Use the stat function to retrieve the information of the file before and after compression.

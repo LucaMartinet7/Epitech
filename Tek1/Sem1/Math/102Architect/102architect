@@ -1,0 +1,67 @@
+#!/usr/bin/python3
+import math
+import sys
+
+def h():
+    print("USAGE")
+    print("\t./102architect x y transfo1 arg11 [arg12] [transfo2 arg12 [arg22]] ...")
+    print("")
+    print("DESCRIPTION")
+    print("\tx\tabscissa of the original point")
+    print("\ty\tordinate of the original point")
+    print("")
+    print("\ttransfo arg1 [arg2]")
+    print("\t-t i j\ttranslation along vector (i, j)")
+    print("\t-z m n\tscaling by factors m (x-axis) and n (y-axis)")
+    print("\t-r d\trotation centered in 0 by a d degree angle")
+    print("\t-s d\treflection over the axis passing through 0 with an inclination")
+    print("\t\tangle of d degrees")
+
+    try :
+        x = sys.argv[1]
+        y = sys.argv[2]
+        i = 3
+        len = len - 3
+        matrix = [1.00, 0.00, 0.00, 0.00, 1.00, 0.00, 0.00, 0.00, 1.00, float(arg1), float(arg2)]
+        while (len > 0):
+            if (sys.argv == "-h"):
+                h()
+            else:
+                if (sys.argv[i] == "-t"):
+                    matrix = translation(i, matrix)
+                    i += 2
+                    len += 2
+                else:
+                    if (sys.argv[i] == "-r"):
+                        matrix = rotate(i, matrix)
+                        i += 2
+                        len += 2
+                    else:
+                        exit (84)
+    except :
+        exit(84)
+
+def translation(i, matrix):
+    a = i + 1
+    b = i + 2
+    arg1 = sys.argv[a]
+    arg2 = sys.argv[b]
+    z = matrix[9]
+    y = matrix[10]
+    print("Translation along vector (" + arg1 + ", " + arg2 + ")")
+    matrix[2] = float(arg1) + z
+    matrix[5] = float(arg2) + y
+    matrix[9] = float(arg1) + z
+    matrix[10] = float(arg2) + y
+    return (matrix)
+
+
+def rotate(i, matrix):
+    a = i + 1
+    arg = sys.argv[a]
+    print("Rotation by a " + arg + " degree angle")
+    matrix[0] = float(arg) * matrix[0]
+    matrix[4] = float(arg) * matrix[4]
+    return matrix
+
+

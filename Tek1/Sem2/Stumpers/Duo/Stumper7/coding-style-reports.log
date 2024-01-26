@@ -1,0 +1,4 @@
+./Makefile:46: illegal token in column 15, giving up (hint: fix the file or remove it from the working set)
+./src/sorter.c:16: MINOR:C-L2
+./src/sorter.c:17: MINOR:C-L2
+./src/sorter.c:18: MINOR:C-L2

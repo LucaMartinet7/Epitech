@@ -1,0 +1,20 @@
+unsetenv HOSTTYPE
+unsetenv VENDOR
+unsetenv OSTYPE
+unsetenv MACHTYPE
+unsetenv SHLVL
+unsetenv PWD
+unsetenv LOGNAME
+unsetenv USER
+unsetenv GROUP
+unsetenv HOST
+unsetenv REMOTEHOST
+unsetenv _
+unsetenv LS_COLORS
+unsetenv NOTE
+setenv titi
+setenv tata coucou
+env
+/usr/bin/env
+setenv var1 val1
+setenv var2 val2

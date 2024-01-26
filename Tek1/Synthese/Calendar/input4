@@ -1,0 +1,4 @@
+new_employee Hasselhoff David PDG F-13000 1
+new_employee Hasselhoff Pamela DDR F-31000 2
+info_employees sortByName
+END

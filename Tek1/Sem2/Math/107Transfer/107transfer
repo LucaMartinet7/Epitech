@@ -1,0 +1,52 @@
+#!/usr/bin/env python3
+
+import sys
+
+def polynom(x, coef):
+    result = coef[-1]
+    for a in reversed(range(len(coef) - 1)):
+        result = result * x + coef[a]
+    return result
+
+def calcul(num, den):
+    x = 0.0
+    while x <= 1.0:
+        result = 1.0
+        for a in range(len(num)):
+            num_val = polynom(x, num[a])
+            den_val = polynom(x, den[a])
+            result *= num_val / den_val
+        print("{:.3f} -> {:.5f}".format(x, result))
+        x = round(x + 0.001, 3)
+
+def helper():
+    print("""USAGE
+    ./107transfer [num den]*
+DESCRIPTION
+    num     polynomial numerator defined by its coefficients
+    den     polynomial denominator defined by its coefficients""")
+
+def handler(arg):
+    if "-h" in arg:
+        helper()
+        sys.exit(0)
+    if "-h" not in arg and len(arg) < 2:
+        sys.exit(84)
+    if len(arg) % 2 != 0:
+        sys.exit(84)
+    try:
+        num = []
+        den = []
+        turn = True
+        for a in range(len(arg)):
+            if turn:
+                num.append(list(map(float, arg[a].split("*"))))
+            else:
+                den.append(list(map(float, arg[a].split("*"))))
+            turn = not turn
+        calcul(num, den)
+    except ValueError:
+        sys.exit(84)
+
+if __name__ == "__main__":
+    handler(sys.argv[1:])

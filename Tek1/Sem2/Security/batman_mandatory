@@ -1,0 +1,19 @@
+openvpn
+
+nmap the ip
+
+open ports 3000 the correct one
+
+nc the ip and port
+
+type [ALERT]
+
+ftp the ip
+
+go into home with $()
+
+in home there is bruce_wayne
+
+in bruce_wayne there is user.txt
+
+in user.txt the is first flag

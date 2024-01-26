@@ -1,0 +1,179 @@
+##
+## EPITECH PROJECT, 2023
+## B-SYN-200-PAR-2-1-automakefile-luca.martinet
+## File description:
+## automakefile
+##
+
+#!bin/bash
+
+export nbr_of_lines=$(( $(wc -l < "$1") + 1 ))
+
+export line_number=1
+
+if [[ -z "$1" ]];
+then
+    exit 84
+fi
+
+if [[ ! -e "$1" ]];
+then
+    exit 84
+fi
+
+if [ $# -ge 2 ];
+then
+    exit 84
+fi
+
+if [ ! -s "$1" ];
+then
+    exit 84
+fi
+
+if [ $1 == "." ];
+then
+    exit 84
+fi
+
+dir=$(dirname "$1")
+
+if [[ -f "$dir/Makefile" ]];
+then
+    rm -f "$dir/Makefile"
+fi
+
+c_files=`grep -F ".c" $1 | cut -d ";" -f1`
+if [[ $c_files = "" ]];
+then
+    exit 84
+fi
+
+if test ! -f "$1";
+then
+   exit 84
+else
+    touch "$dir/Makefile"
+    IFS=';'
+    while read -r line || [[ -n $line ]];
+        do
+        array=($line)
+        if [[ ${array[0]} == "PROJECT_DIR" ]];
+        then
+            project_dir=${array[1]}
+            if test ! -d "$project_dir";
+            then
+                exit 84
+            fi
+        elif [[ ${array[0]} == "SOURCES_DIR" ]];
+        then
+            sources_dir=${array[1]}
+        elif [[ ${array[0]} == "HEADERS_DIR" ]];
+        then
+            headers_dir=${array[1]}
+        elif [[ ${array[0]} == "LIBS_DIR" ]];
+        then
+            libs_dir=${array[1]}
+        elif [[ ${array[0]} == "EXEC" ]];
+        then
+            executable_name=${array[1]}
+        elif [[ ${array[0]} == "CC" ]];
+        then
+            cc=${array[1]}
+        elif [[ ${array[0]} == "CFLAGS" ]];
+        then
+            cflags=${array[1]}
+        elif [[ ${array[0]} == "BCK_DIR" ]];
+        then
+            backup_dir=${array[1]}
+        elif [[ ${array[0]} == "ZIP" ]];
+        then
+            zip=${array[1]}
+        elif [[ ${array[0]} == "UNZIPFLAGS" ]];
+        then
+            jevaispetemoncrane=${array[1]}
+        elif [[ ${array[0]} == "ZIPFLAGS" ]];
+        then
+            zipflags=${array[1]}
+        elif [[ ${array[0]} == "UNZIP" ]];
+        then
+            unzip=${array[1]}
+        fi
+
+        if [ "$line_number" -eq "$nbr_of_lines" ];
+        then
+            makefile="$project_dir/Makefile"
+            {
+                echo "##"
+                echo "## EPITECH PROJECT, 2023"
+                echo "## makefile"
+                echo "## File description:"
+                echo "## makefile"
+                echo "##"
+                echo
+                echo "SRC := \$(wildcard ${sources_dir}/*.c)"
+                echo
+                echo "OBJ := \$(SRC:.c=.o)"
+                echo
+                echo "NAME := $executable_name"
+                echo
+                echo "CC := $cc"
+                echo
+                echo "CFLAGS := $cflags"
+                echo
+                echo "LDFLAGS := -I ./$headers_dir"
+                echo
+                echo "BCK_DIR := $backup_dir"
+                echo
+                echo "ZIP := $zip"
+                echo
+                echo "ZIPFLAGS := $zipflags"
+                echo
+                echo "UNZIP := $unzip"
+                echo
+                echo "UNZIPFLAGS := $jevaispetemoncrane"
+                echo
+                echo -e "all: \$(NAME)"
+                echo
+                echo -e "\$(NAME): \$(OBJ)"
+                echo -e "\t\$(CC) -o \$(NAME) \$(OBJ) \$(LDFLAGS) \$(CFLAGS)"
+                echo
+                echo "clean:"
+                echo -e "\trm -rf \$(OBJ)"
+                echo
+                echo "fclean: clean"
+                echo -e "\trm -rf \$(NAME)"
+                echo
+                echo "re: fclean all"
+                echo
+                echo "archive:"
+                echo -e "\t\$(ZIP) \$(ZIPFLAGS) \$(BCK_DIR)/backup.\$(ZIP) \$(SRC)"
+                echo -e "\t@\$ ./version.sh "+""
+                echo
+                echo "revert:"
+                echo -e "\t\$(UNZIP) \$(UNZIPFLAGS) \$(BCK_DIR)/backup.\$(ZIP)"
+                echo -e "\t@\$ ./version.sh "-""
+                echo
+                echo "num:"
+                echo -e "\t@\$ cat version"
+                echo
+                echo "delete:"
+                echo -e "\trm -f \$(BCK_DIR)/backup.\$(ZIP)"
+                echo
+                echo ".PHONY: all clean fclean re archive revert num delete"
+            } >> "$makefile"
+        fi
+        let line_number+=1
+    done < "$1"
+fi
+
+echo -e 0 > $project_dir/version
+echo -e "#!/bin/sh" > $project_dir/version.sh
+echo -e "read i < version" >> $project_dir/version.sh
+echo -e "if [ \"\$1\" == \"+\" ]; then" >> $project_dir/version.sh
+echo -e "\ti_new=\$[\$i+1]" >> $project_dir/version.sh
+echo -e "elif [ \"\$1\" == \"-\" ]; then" >> $project_dir/version.sh
+echo -e "\ti_new=\$[\$i-1]" >> $project_dir/version.sh
+echo -e "fi" >> $project_dir/version.sh
+echo -e "echo \$i_new > version" >> $project_dir/version.sh
+chmod +x $project_dir/version.sh

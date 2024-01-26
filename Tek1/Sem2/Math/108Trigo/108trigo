@@ -1,0 +1,207 @@
+#!/usr/bin/env python3
+import sys
+import math
+
+def help():
+    print("USAGE:\n\t ./108trigo fun a0 a1 a2 ...\n")
+    print("DESCRIPTION\n\tfun\tfunction to be applied, among at least “EXP”, “COS”, “SIN”, “COSH\n\t\tand “SINH”")
+    print("\tai\tcoefficients of the matrix")
+import sys
+import math
+
+def my_digit(c):
+    if ((ord(c) < ord('0') or ord(c) > ord('9')) and c != '-' and c != '.'):
+        return False
+    return True
+
+def verif(argv):
+    for j in range(3, len(argv)):
+        for i in range(0, len(argv[j])):
+            if (my_digit(argv[j][i]) == False):
+                return False
+    return True
+
+def factorial(n):
+    nb = n
+    fct = 1
+    if (n == 0 or n == 1):
+        return 1
+    while (nb > 1):
+        fct = fct * nb
+        nb = nb - 1
+    return fct
+
+def add_matrix(mat_1, mat_2):
+    tmp = 0
+    res: list = []
+    mat: tuple
+    for i in range (len(mat_1)):
+        for j in range (len(mat_2)):
+            tmp = mat_1[i][j] + mat_2[i][j]
+            res.append(tmp)
+            tmp = 0
+    mat = tuple(get_matrix(res))
+    return mat
+
+def mul_matrix(mat_1, mat_2):
+    tmp = 0
+    res: list = []
+    mat: tuple
+    for i in range (len(mat_1)):
+        for j in range (len(mat_2[i])):
+            for k in range (len(mat_2)):
+                tmp = tmp + mat_1[i][k] * mat_2[k][j]
+            res.append(tmp)
+            tmp = 0
+    mat = tuple(get_matrix(res))
+    return mat
+
+def matrix_power(mat : tuple, pow):
+    res = mat
+    if (pow == 1):
+        return mat
+    for i in range (pow - 1):
+        res = mul_matrix(mat, res)
+    return res
+
+def fraction(matrix, n, fct):
+    mat = matrix_power(matrix, n)
+    fact_n = factorial(n)
+    for i in range (len(matrix)):
+        for j in range (len(matrix[i])):
+            mat[i][j] = mat[i][j] / fact_n
+    return multiplication(mat, fct)
+
+def multiplication(mat, n):
+    res: tuple = mat
+    for i in range (len(mat)):
+        for j in range (len(mat[i])):
+            if (res[i][j] == 0):
+                res[i][j] = mat[i][j]
+            else:
+                res[i][j] = mat[i][j] * n
+    return res
+
+def check_type(str):
+    if (str == 'EXP'):
+        return 0
+    if (str == 'COS'):
+        return 1
+    if (str == 'SIN'):
+        return 2
+    if (str == 'SINH'):
+        return 3
+    if (str == 'COSH'):
+        return 4
+    return 84
+
+def get_matrix(argv):
+    mat: list = []
+    index = 0
+    for i in range (0, int(math.sqrt(len(argv)))):
+        elems = []
+        for j in range (0, int(math.sqrt(len(argv)))):
+            elems.append(float(argv[index]))
+            index = index + 1
+        mat.append(elems)
+    return mat
+
+def generate_identity_matrix(lines: int, cols: int):
+    id_mat: list = []
+    for i in range (lines):
+        tmp = []
+        for j in range (cols):
+            if j == i:
+                tmp.append(1)
+            else:
+                tmp.append(0)
+        id_mat.append(tmp)
+    return tuple(id_mat)
+
+def sinus(mat: tuple, length: int):
+    res: tuple = mat
+    i = 3
+    fct = -1
+    while (i < 100):
+        mat = fraction(mat, i, fct)
+        res = add_matrix(res, mat)
+        fct = fct * -1
+        i = i + 2
+    return res
+
+def sinh(mat: tuple, length: int):
+    res: tuple = mat
+    i = 3
+    while (i < 100):
+        matrix = fraction(mat, i, 1)
+        res = add_matrix(res, matrix)
+        i = i + 2
+    return res
+
+def cosh(mat: tuple, length: int):
+    res: tuple = generate_identity_matrix(length, length)
+    i = 2
+    while (i < 100):
+        matrix = fraction(mat, i, 1)
+        res = add_matrix(res, matrix)
+        i = i + 2
+    return res
+
+def cosinus(mat: tuple, length: int):
+    res: tuple = generate_identity_matrix(length, length)
+    i = 2
+    fct = -1
+    while (i < 100):
+        matrix = fraction(mat, i, fct)
+        res = add_matrix(res, matrix)
+        fct = fct * -1
+        i = i + 2
+    return res
+
+def exponential(mat: tuple, length: int):
+    res: tuple = generate_identity_matrix(length, length)
+    for i in range (1, 100):
+        matrix = fraction(matrix, i, 1)
+        res = add_matrix(res, matrix)
+    return res
+
+def developement(argv, opp):
+    length: int = int(math.sqrt(len(argv)))
+    mat: tuple = tuple(get_matrix(argv))
+    res: tuple = []
+
+    if (opp == 0):
+        res = exponential(mat, length)
+    elif (opp == 1):
+        res = cosinus(mat, length)
+    elif (opp == 2):
+        res = sinus(mat, length)
+    elif (opp == 3):
+        res = sinh(mat, length)
+    elif (opp == 4):
+        res = cosh(mat, length)
+    for i in range (len(res)):
+        for j in range (len(res[i])):
+            print(f"{res[i][j]:.2f}", end = "")
+            if (j != len(res[i]) - 1):
+                print("\t", end = "")
+        print("\n", end = "")
+    return
+
+def main(argv):
+    opp: int
+    if (len(argv) == 2 and argv[1] == "-h"):
+        help()
+    elif (len(argv) < 3):
+        return 84
+    elif (math.sqrt(len(argv) - 2) != math.ceil(math.sqrt(len(argv) - 2)) or verif(argv) == False):
+        return 84
+    else:
+        opp = check_type(argv[1])
+        if (opp == 84):
+            return 84
+        developement(argv[2:], opp)
+        return 0
+
+if __name__ == '__main__':
+    exit(main(sys.argv))

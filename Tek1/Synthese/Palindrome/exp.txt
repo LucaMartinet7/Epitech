@@ -1,0 +1,31 @@
+Palindrome: A palindrome is a word, phrase, number, or other sequence of characters that reads the same forward and backward. For example, "radar" and "12321" are palindromes because they are the same when read in reverse.
+
+Iteration: An iteration refers to the act of repeating a process or sequence of steps. In this context, it involves applying a specific procedure repeatedly to a given number.
+
+n-Iteration Turnover Palindrome: This term describes a number that, after undergoing n iterations of a specific procedure, becomes a palindrome. The procedure involves reversing the number, adding it to its reverse, and repeating the process until a palindrome is obtained.
+
+Here's an example to illustrate the concept:
+
+Let's start with the number 87.
+
+1st iteration:
+Reverse: 78
+Addition: 87 + 78 = 165
+
+2nd iteration:
+Reverse: 561
+Addition: 165 + 561 = 726
+
+3rd iteration:
+Reverse: 627
+Addition: 726 + 627 = 1353
+
+4th iteration:
+Reverse: 3531
+Addition: 1353 + 3531 = 4884
+
+After four iterations, the number 87 becomes a palindrome (4884). Therefore, 87 is a 4-iteration turnover palindrome.
+
+You can continue this process with other numbers and iterate until you obtain a palindrome or determine that the number does not lead to a palindrome.
+
+Note that not all numbers will become palindromes, even after multiple iterations.

@@ -1,0 +1,63 @@
+#!/usr/bin/env python3
+import sys
+from math import *
+
+def main(opt, a0, a1, a2, a3, a4, n):
+    try:
+        if len(sys.argv) != 8:
+            sys.exit(84)
+        if opt > 3:
+            sys.exit(84)
+        if opt < 1:
+            sys.exit(84)
+        if n < 0:
+            sys.exit(84)
+    except:
+        sys.exit(84)
+    def function(x):
+        f = (a4 * pow(x, 4) + a3 * pow(x, 3) + a2 * pow(x, 2) + a1 * x + a0)
+        return f
+    def derivation_function(x):
+        derivation = (4 * a4 * pow(x, 3) + 3 * a3 * pow(x, 2) + 2 * a2 * x + a1)
+        return derivation
+    if opt == 1:
+        a = 0
+        b = 1
+        c = 0
+        j = 1
+        while abs(c - j) > pow(10, -n):
+            j = c
+            c = (a + b) / 2
+            if function(a) * function(c) <= 0:
+                b = c
+            else:
+                a = c
+            if pow(10, n) * c % 1 == 0:
+                print("x =", c)
+            else:
+                print("x = %.*f" % (n, c))
+    elif opt == 2:
+        a = 0.5
+        print ("x =", a)
+        while (abs(function(a)/derivation_function(a)) > pow(10, -n)):
+            a = a - (function(a)/derivation_function(a))
+            if pow(10, n) * function(a) % 1 == 0:
+                print("x =", a)
+            else:
+                print("x = %.*f" % (n, a))
+    elif opt == 3:
+        a = 0
+        b = 1
+        c = 0
+        while abs(a - b) > pow(10, -n):
+            c = b - ((b - a) / (function(b) - function(a))) * function(b)
+            a = b
+            b = c
+            if pow(10, n) * c % 1 == 0:
+                print("x =", c)
+            else:
+                print("x = %.*f" % (n, c))
+    else:
+        sys.exit(84)
+
+main(int(sys.argv[1]), int(sys.argv[2]), int(sys.argv[3]), int(sys.argv[4]), int(sys.argv[5]), int(sys.argv[6]), int(sys.argv[7]))

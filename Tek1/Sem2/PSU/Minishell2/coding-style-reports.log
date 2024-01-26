@@ -1,0 +1,2 @@
+./testing/my_divzero:1: MAJOR:C-O1
+./testing/my_segfault:1: MAJOR:C-O1

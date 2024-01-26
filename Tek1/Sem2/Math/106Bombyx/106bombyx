@@ -1,0 +1,91 @@
+#!/usr/bin/env python3
+import sys
+import math
+import os
+import random
+import string
+
+def help():
+    print("Usage:\n\t ./106bombyx n [k | i0 i1]\n\n")
+    print("DESCRIPTION\n\t n\tnumber of first generation individuals\n")
+    print("\t k\tgrowth rate from 1 to 4\n")
+    print("\t i0\tinitial generation (included)\n")
+    print("\t i1\tfinal generation (included)\n")
+
+def error():
+    if len(sys.argv) != 4 and len(sys.argv) != 3:
+        print("Error: Invalid number of arguments")
+        print("USAGE")
+        print("\t../106bombyx n [k | i0 i1]")
+        print("Run './106bombyx -h' for more information")
+        exit(84)
+
+def calc1(n, k):
+    pop = n
+    print(1, "%.2f" %(pop))
+    for i in range(1, 100):
+        x = k * pop * (1000 - pop) / 1000
+        pop = x
+        if (float(("%.1f" % (x))) == round(x, 2)):
+            print(i + 1, str(round(x, 2)) + "0")
+        else:
+            print(i + 1, str(round(x, 2)))
+
+def calc2(n, i0, i1):
+    k = 1.00
+    pop = n
+    while (k < 4):
+        i = 1
+        n = float(pop)
+        while (i < i0):
+            n = k * n * ((1000 - n) / 1000)
+            if (n < 0):
+                n = 0
+            i = i + 1
+
+        while (i <= i1):
+            if (float(("%.1f" % (n))) == round(n, 2)):
+                print ("%.2f" % k + " " + str(round(n, 2)) + "0")
+            else:
+                print ("%.2f" % k + " " + str(round(n, 2)))
+            n = k * n * ((1000 - n) / 1000)
+            if (n < 0):
+                n = 0
+            i += 1
+
+        k += 0.01
+
+def isfloat(num):
+    try:
+        float(num)
+        return True
+    except ValueError:
+        return False
+
+def main():
+    if len(sys.argv) == 2 and sys.argv[1] == "-h":
+        help()
+        exit(0)
+    else:
+        error()
+    if len(sys.argv) == 3:
+        n = float(sys.argv[1])
+        if (n < 0):
+            exit(84)
+        k = float(sys.argv[2])
+        if (k < 1 or k > 4):
+            exit(84)
+        calc1(n, k)
+    if len(sys.argv) == 4:
+        n = float(sys.argv[1])
+        if (n < 0):
+            exit(84)
+        i0 = float(sys.argv[2])
+        i1 = float(sys.argv[3])
+        if (i0 < 1 or i1 < i0):
+            exit(84)
+        calc2(n, i0, i1)
+
+
+
+main()

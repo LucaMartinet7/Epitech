@@ -1,0 +1,31 @@
+{
+  "name": "b-web-200-par-2-2-epytodo-luca.martinet",
+  "version": "1.0.0",
+  "description": "e project idea is to build a Todo List. Thanks to it, you’ll be able to handle all the tasks you need to do",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "npm run start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EpitechPromo2027/B-WEB-200-PAR-2-2-epytodo-luca.martinet.git"
+  },
+  "keywords": [
+    "backend"
+  ],
+  "author": "LoupM, LucaM, NoeK",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/EpitechPromo2027/B-WEB-200-PAR-2-2-epytodo-luca.martinet/issues"
+  },
+  "homepage": "https://github.com/EpitechPromo2027/B-WEB-200-PAR-2-2-epytodo-luca.martinet#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.2",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.0",
+    "mysql2": "^3.3.1"
+  }
+}

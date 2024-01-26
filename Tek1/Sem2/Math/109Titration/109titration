@@ -1,0 +1,83 @@
+#!/usr/bin/env python3
+import math
+import sys
+import csv
+
+def titration(tab):
+    p = 0.0
+    deriv = []
+    k = 0
+    s = 1
+    print("Derivative:")
+    deriv.append(0)
+    for i in range(1, len(tab) - 1):
+        deriv.append((tab[i + 1][1] - tab[i - 1][1]) / (tab[i + 1][0] - tab[i - 1][0]))
+        print("%.1f ml -> %.2f" % (tab[i][0], deriv[i]))
+        if p < deriv[i]:
+            p = deriv[i]
+            s = tab[i][0]
+            k = i
+    deriv.append(0)
+    print("\nEquivalent point at %.1f ml\n" % s)
+    print("Second derivative:")
+    for i in range(1, len(deriv) - 3):
+        p = (deriv[i + 2] - deriv[i]) / (tab[i + 2][0] - tab[i][0])
+        print("%.1f ml -> %.2f" % (tab[i + 1][0], p))
+    print("\nSecond derivative estimated:")
+    r = s
+    e = 0
+    if k - 2 < 0:
+        i = tab[k - 1][0]
+        p = v1 = 0
+    else:
+        i = tab[k - 1][0]
+        p = v1 = (deriv[k] - deriv[k - 2]) / (tab[k][0] - tab[k - 2][0])
+    v2 = (deriv[k + 1] - deriv[k - 1]) / (tab[k + 1][0] - tab[k - 1][0])
+    z = (v2 - v1) / (10 * (tab[k][0] - tab[k - 1][0]))
+    while i - 0.05 < tab[k][0]:
+        print("%.1f ml -> %.2f" % (i, v1))
+        if math.fabs(p) > math.fabs(v1) and k - 1 > 0:
+            p = v1
+            r = i
+        v1 += z
+        i += 0.1
+
+    if k + 3 >= len(deriv):
+        z = -v2 / 10
+    else:
+        v1 = (deriv[k + 2] - deriv[k]) / (tab[k + 2][0] - tab[k][0])
+        z = (v1 - v2) / (10 * (tab[k + 1][0] - tab[k][0]))
+    v2 += z
+    while i - 0.05 < tab[k + 1][0]:
+        print("%.1f ml -> %.2f" % (i, v2))
+        v2 += z
+        i += 0.1
+        if math.fabs(p) > math.fabs(v2) and k + 3 < len(tab):
+            p = v2
+            r = i
+    print("\nEquivalent point at %.1f ml" % r)
+    return deriv
+
+def main():
+    if len(sys.argv) != 2:
+        print("Usage: ./109titration file")
+        sys.exit (84)
+    if len(sys.argv) == 2 and sys.argv[1] == "-h":
+        print("""Usage
+    ./109titration file
+
+DESCRIPTION
+    file    a csv file containing "vol;ph" lines""")
+        sys.exit (0)
+    try:
+        with open(sys.argv[1], 'r') as f:
+            reader = csv.reader(f, delimiter=';')
+            tab = []
+            for row in reader:
+                tab.append([float(row[0]), float(row[1])])
+    except:
+        print("Error: file not found")
+        sys.exit (84)
+    titration(tab)
+
+main()

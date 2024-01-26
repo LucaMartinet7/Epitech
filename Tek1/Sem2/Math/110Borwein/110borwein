@@ -1,0 +1,93 @@
+#!/usr/bin/env python3
+
+import sys
+import math
+
+def help_opt():
+    print("""USAGE\n\t./110borwein n\n\nDESCRIPTION\n\tn\t
+    constant defining the integral to be computed""")
+
+def validate_input_string(input_string):
+    for char in input_string:
+        if (char != '-' and (char < '0' or char > '9')):
+            sys.stdout.write("Invalid argument\n")
+            exit(84)
+
+def midpoint(x):
+    res = 0.0
+    r = 0
+    h = (5000 - r) / 10000
+    while (r < 10000):
+        res += borwein(x, r * h)
+        r += 1
+    res *= h
+    return res
+
+def trapezoidal(x):
+    res = 0.0
+    h = 5000 / 10000
+    r = 1
+    while (r < 10000):
+        res += borwein(x, r * h)
+        r += 1
+    res *= 2
+    res += borwein(x, 5000)
+    res += borwein(x, 0)
+    res *= (h / 2)
+    return (res)
+
+def simpson(x):
+    res = 0.0
+    ult = 0.0
+    b = 5000
+    n = 10000
+    h = b / n
+    r = 1
+    while (r < 10000):
+        res += borwein(x, r * h)
+        r += 1
+    r = 0
+    while (r < 10000):
+        ult += borwein(x, (r * h) + (h / 2))
+        r += 1
+    result = borwein(x, 5000) + borwein(x, 0) + (2 * res) + (4 * ult)
+    result *= (b / (6 * n))
+    return (result)
+
+def borwein(x, i):
+    result = 1.0
+    r = 0
+    while (r <= x):
+        if (i != 0):
+            result *= (math.sin(i / (2 * r + 1)) / (i / (2 * r + 1)))
+        r += 1
+    return (result)
+
+def main():
+    if len(sys.argv) != 2:
+        print("Invalid number of arguments")
+        sys.exit(84)
+    elif sys.argv[1] == "-h":
+        help_opt()
+        sys.exit(0)
+    elif not sys.argv[1].isdigit():
+        print("Not an integer number")
+        sys.exit(84)
+
+    x = int(sys.argv[1])
+    result = midpoint(x)
+    diff = abs(result - (math.pi / 2))
+    print(f"Midpoint:\nI{x} = {result:.10f}")
+    print(f"diff = {diff:.10f}\n")
+
+    result = trapezoidal(x)
+    diff = abs(result - (math.pi / 2))
+    print(f"Trapezoidal:\nI{x} = {result:.10f}")
+    print(f"diff = {diff:.10f}\n")
+
+    result = simpson(x)
+    diff = abs(result - (math.pi / 2))
+    print(f"Simpson:\nI{x} = {result:.10f}")
+    print(f"diff = {diff:.10f}")
+
+main()

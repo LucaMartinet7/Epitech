@@ -1,0 +1,6 @@
+.vscode/settings.json
+209poll
+*.o
+*.gcno
+*.gcda
+*.gcov

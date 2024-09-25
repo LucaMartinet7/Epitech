@@ -1,0 +1,71 @@
+#!/usr/bin/env python3
+import sys
+import math
+
+def normal_density(x, mean, std_dev):
+    return (1 / (std_dev * math.sqrt(2 * math.pi))) * math.exp(-((x - mean) ** 2) / (2 * std_dev ** 2))
+
+def percentage_below_iq(iq, mean, std_dev):
+    z_score = (iq - mean) / std_dev
+    return 0.5 * (1 + math.erf(z_score / math.sqrt(2))) * 100
+
+def percentage_between_iqs(iq1, iq2, mean, std_dev):
+    p1 = percentage_below_iq(iq1, mean, std_dev)
+    p2 = percentage_below_iq(iq2, mean, std_dev)
+    return p2 - p1
+
+def plot_density(mean, std_dev):
+    data = list()
+    for x in range(0, 201):
+        data.append((x, normal_density(x, mean, std_dev)))
+    return data
+
+def print_usage():
+    print("USAGE:")
+    print("./205IQ u s [IQ1] [IQ2]")
+    print("DESCRIPTION:")
+    print("u mean")
+    print("s standard deviation")
+    print("IQ1 minimum IQ (optional)")
+    print("IQ2 maximum IQ (optional)")
+
+def main():
+    try:
+        if len(sys.argv) < 3:
+            raise ValueError("Not enough arguments.")
+        if len(sys.argv) > 5:
+            raise ValueError("Too many arguments.")
+        mean = int(sys.argv[1])
+        std_dev = int(sys.argv[2])
+        if mean < 0 or mean > 200:
+            raise ValueError("Invalid mean value.")
+        if std_dev < 0 or std_dev > 200:
+            raise ValueError("Invalid standard deviation value.")
+        if len(sys.argv) == 3:
+            data = plot_density(mean, std_dev)
+            for iq, density in data:
+                print(f"{iq} {density:.5f}")
+        elif len(sys.argv) == 4:
+            iq1 = int(sys.argv[3])
+            if iq1 < 0 or iq1 > 200:
+                raise ValueError("Invalid IQ value.")
+            percentage = percentage_below_iq(iq1, mean, std_dev)
+            print(f"{percentage:.1f}% of people have an IQ inferior to {iq1}")
+        elif len(sys.argv) == 5:
+            iq1 = int(sys.argv[3])
+            iq2 = int(sys.argv[4])
+            if iq1 > iq2:
+                raise ValueError("IQ1 must be smaller than IQ2.")
+            if iq1 < 0 or iq1 > 200:
+                raise ValueError("Invalid IQ1 value.")
+            if iq2 < 0 or iq2 > 200:
+                raise ValueError("Invalid IQ2 value.")
+            percentage = percentage_between_iqs(iq1, iq2, mean, std_dev)
+            print(f"{percentage:.1f}% of people have an IQ between {iq1} and {iq2}")
+    except ValueError as e:
+        print(f"Error: {e}", file=sys.stderr)
+        print_usage()
+        sys.exit(84)
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,297 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    margin: 0;
+}
+
+.flex-container {
+    display: flex;
+    overflow-x: auto;
+    align-items: flex-start;
+    padding: 20px;
+}
+
+.list {
+    background-color: #0000001f;
+    border-radius: 25px;
+    margin-right: 20px;
+    min-width: 300px;
+    min-height: 20px;
+    padding: 20px;
+    position: top;
+}
+
+.card-icon {
+    /* Styles pour l'icône à droite de la carte */
+    position: absolute;
+    top: 50%;
+    right: 5px;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+
+.list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    position: relative;
+    left: 10px;
+}
+
+.add-card-btn {
+    color: none;
+    background-color: #ffffff00;
+    border: none;
+    border-radius: 5px;
+    padding: 7px 15px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.add-card-btn i {
+    margin-right: 5px;
+}
+
+.add-card-btn:hover {
+    background-color: #0000000e;
+}
+
+.card {
+    display: flex;
+    align-items: center;
+    background-color: #ffffff;
+    border-radius: 20px;
+    padding: 5px;
+    margin-bottom: 5px;
+    min-height: 55px;
+    cursor: grab;
+    position: relative;
+}
+
+.card p {
+    margin: 0; /* Ajoutez cette ligne pour enlever la marge par défaut du paragraphe */
+    display: inline-block;
+    margin-left: 15px; /* Ajustez cette valeur selon votre besoin */
+}
+
+.card i {
+    margin-left: 15px; /* Cela alignera l'icône à droite de la carte */
+}
+
+
+.card .card-icon {
+    margin-right: 15px; /* Pour aligner l'icône à droite */
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.modal {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    width: 100%;
+    min-height: 200px;
+    display: flex;
+    justify-content: left;
+    align-items: left;
+}
+
+.modal-content {
+    background-color:#dedede;
+    width: 330px;
+    padding: 20px;
+    border-radius: 25px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    position: relative;
+}
+
+.cardName {
+    position: absolute;
+    top: 30px;
+    left: 110px;
+    background-color: transparent;
+    font-color: #000000;
+    font-size: 16px;
+    border: none;
+}
+
+.cardNameTxt {
+    position: absolute;
+    top: 30px;
+    left: 20px;
+    background-color: transparent;
+    border: none;
+}
+
+.cardNameTxt i {
+    position: absolute;
+    left: 280px;
+}
+
+.projectLink {
+    background-color: transparent;
+    font-color: #000000;
+    font-size: 16px;
+    border: none;
+    position: absolute;
+    top: 60px;
+    left: 112px;
+    max-width: 185px;
+}
+
+.projectLinkTxt {
+    position: absolute;
+    top: 60px;
+    left: 20px;
+}
+
+.projectLinkTxt i {
+    position: absolute;
+    color: #000000;
+    left: 280px;
+}
+
+.assignTo {
+    background-color: transparent;
+    font-color: #000000;
+    font-size: 16px;
+    border: none;
+    position: absolute;
+    top: 90px;
+    left: 95px;
+}
+
+.assignTxt {
+    position: absolute;
+    top: 90px;
+    left: 20px;
+}
+
+.assignTxt i {
+    position: absolute;
+    left: 280px;
+}
+
+.status {
+    position: absolute;
+    top: 120px;
+    left: 75px;
+}
+
+.statustxt {
+    position: absolute;
+    top: 120px;
+    left: 20px;
+}
+
+.dateCreated {
+    position: absolute;
+    top: 150px;
+    left: 125px;
+}
+
+.dateTxt {
+    position: absolute;
+    top: 150px;
+    left: 20px;
+}
+
+.dateTxt i {
+    position: absolute;
+    left: 280px;
+}
+
+.saveBtn {
+    position: absolute;
+    bottom: 30px;
+    right: 10px;
+    border: none;
+    background-color: #00000000;
+}
+
+.saveBtn:hover {
+    color: rgb(0, 162, 255);
+}
+
+.deleteBtn {
+    min-width: 10px;
+    border: none;
+    min-height: 10px;
+    border-radius: 10px;
+}
+
+.deleteBtn {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background-color: #00000000;
+    min-width: 10px;
+    border: none;
+    min-height: 10px;
+}
+
+.deleteBtn:hover {
+    color: rgb(205, 0, 0);
+}
+
+.cancelBtn {
+    position: absolute;
+    top: 10px;
+    right: 12px;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    color: #333;
+}
+
+.cancelBtn:hover {
+    color: rgb(205, 0, 0);
+}
+
+.push-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #0000001f;
+    color: #000;
+    border: none;
+    border-radius: 50%;
+    width: 56px;
+    height: 56px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.2);
+}
+
+.push-button i {
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+.feedback-modal {
+    background-color: #dedede;
+    width: 300px;
+    height: 100px;
+    padding: 20px;
+    border-radius: 25px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
+    position: fixed;
+    z-index: 10000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}

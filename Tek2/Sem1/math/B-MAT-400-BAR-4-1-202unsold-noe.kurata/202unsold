@@ -1,0 +1,88 @@
+#!/usr/bin/python3
+
+import sys
+
+X = [0.0] * 5
+Y = [0.0] * 5
+Z = [0.0] * 9
+
+def law_Z():
+    print("z\t20\t30\t40\t50\t60\t70\t80\t90\t100")
+    print("p(Z=z)", end='\t')
+    for i in range(0, 8):
+        print("%.3f" % Z[i], end='\t')
+    print("%.3f" % Z[8], end='')
+    print("")
+
+def print_joint_law(a, b):
+    print("\tX=10\tX=20\tX=30\tX=40\tX=50\tY law")
+    for i in range(1, 6):
+        total = 0.0
+        y = i * 10
+        print("Y=" + str(y), end='\t')
+        for j in range(1, 6):
+            x = j * 10
+            val = ((a - x) * (b - y)) / ((5 * a - 150) * (5 * b - 150))
+            X[j - 1] += val
+            print("%.3f" % val, end='\t')
+            total += val
+            z = (i + j) - 2
+            Z[z] += val
+        print("%.3f" % total, end='')
+        Y[i - 1] += total
+        print("")
+    print("X law\t", end="")
+    for i in range(0, 5):
+        print("%.3f" % X[i], end='\t')
+    print("%.3f" % 1.0)
+
+def expected_value(outcomes, probabilities):
+    return sum(o * p for o, p in zip(outcomes, probabilities))
+
+def variance(outcomes, probabilities, expected_value):
+    return sum((o - expected_value) ** 2 * p for o, p in zip(outcomes, probabilities))
+
+def print_table(a, b):
+    print("-" * 80)
+    print_joint_law(a, b)
+    print("-" * 80)
+    law_Z()
+    print("-" * 80)
+
+    exp_X = expected_value([10, 20, 30, 40, 50], X)
+    var_X = variance([10, 20, 30, 40, 50], X, exp_X)
+    exp_Y = expected_value([10, 20, 30, 40, 50], Y)
+    var_Y = variance([10, 20, 30, 40, 50], Y, exp_Y)
+    exp_Z = expected_value([20, 30, 40, 50, 60, 70, 80, 90, 100], Z)
+    var_Z = variance([20, 30, 40, 50, 60, 70, 80, 90, 100], Z, exp_Z)
+    print(f"expected value of X: \t{exp_X:.1f}")
+    print(f"variance of X: \t\t{var_X:.1f}")
+    print(f"expected value of Y: \t{exp_Y:.1f}")
+    print(f"variance of Y: \t\t{var_Y:.1f}")
+    print(f"expected value of Z: \t{exp_Z:.1f}")
+    print(f"variance of Z: \t\t{var_Z:.1f}")
+    print("-" * 80)
+
+def help():
+    print("USAGE")
+    print("\t./202unsold a b")
+    print("\nDESCRIPTION")
+    print("\ta\tconstant computed from the past results")
+    print("\tb\tconstant computed from the past results")
+
+def main():
+    if len(sys.argv) != 3:
+        print("Invalid number of arguments")
+        exit(84)
+    if not (sys.argv[1].isdigit() and sys.argv[2].isdigit()):
+        print("Invalid arguments. Both a and b must be integers.")
+        exit(84)
+    a = int(sys.argv[1])
+    b = int(sys.argv[2])
+    if a <= 50 or b <= 50:
+        print("Invalid arguments. Both a and b must be greater than 50.")
+        exit(84)
+    print_table(a, b)
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,165 @@
+#!/usr/bin/env python3
+
+import csv
+import math
+import sys
+
+MILLION = 1000000
+ERROR = 84
+SUCCESS = 0
+
+class DemographyAnalyser:
+    def __init__(self):
+        self.country_list = []
+        self.population_data = []
+        self.year_list = []
+        self.root_mean_square_error_fit1 = 0
+        self.root_mean_square_error_fit2 = 0
+
+    def display_countries(self):
+        print("Countries:", ", ".join(self.country_list))
+
+    def compute_coefficients(self, sum_population, sum_year, sum_squared_population, total_population_year_product):
+        num_years = len(self.year_list)
+        denominator = num_years * sum_squared_population - pow(sum_population, 2)
+
+        if denominator != 0:
+            a_coefficient = (sum_year * sum_squared_population - sum_population * total_population_year_product) / denominator
+            b_coefficient = (num_years * total_population_year_product - sum_population * sum_year) / denominator
+            return a_coefficient, b_coefficient
+        else:
+            return None, None
+
+    def compute_root_mean_square_error_fit2(self, a_coefficient, b_coefficient, population_data):
+        root_mean_square_error = 0
+        for i in range(len(self.year_list)):
+            root_mean_square_error += pow((((self.year_list[i] - a_coefficient) / b_coefficient) - population_data[i]), 2) / len(self.year_list)
+        return math.sqrt(root_mean_square_error) / MILLION
+
+    def compute_fit2(self, sum_population, sum_year, sum_squared_population, total_population_year_product, population_data):
+        a_coefficient, b_coefficient = self.compute_coefficients(sum_population, sum_year, sum_squared_population, total_population_year_product)
+        if a_coefficient is not None and b_coefficient is not None:
+            predict = ((2050 - a_coefficient) / b_coefficient) / MILLION
+
+            if a_coefficient < 0:
+                print(f"Fit2\n\tX = {abs(b_coefficient) * MILLION:.2f} Y - {abs(a_coefficient):.2f}")
+            else:
+                print(f"Fit2\n\tX = {abs(b_coefficient) * MILLION:.2f} Y + {abs(a_coefficient):.2f}")
+
+            self.root_mean_square_error_fit2 = self.compute_root_mean_square_error_fit2(a_coefficient, b_coefficient, population_data)
+            print(f"\tRoot-mean-square deviation: {self.root_mean_square_error_fit2:.2f}")
+            print(f"\tPopulation in 2050: {predict:.2f}")
+        else:
+            print("Error: Denominator is zero, unable to calculate.")
+
+    def compute_root_mean_square_error_fit1(self, a_coefficient, b_coefficient, population_data):
+        root_mean_square_error = 0
+        for i in range(len(self.year_list)):
+            prediction = a_coefficient + b_coefficient * self.year_list[i]
+            root_mean_square_error += pow((population_data[i] - prediction), 2)
+        return math.sqrt(root_mean_square_error / len(self.year_list)) / MILLION
+
+    def compute_fit1(self, sum_year, sum_population, sum_squared_year, total_population_year_product, population_data):
+        a_coefficient, b_coefficient = self.compute_coefficients(sum_year, sum_population, sum_squared_year, total_population_year_product)
+        if a_coefficient is not None and b_coefficient is not None:
+            predict = a_coefficient / MILLION + (2050 * b_coefficient / MILLION)
+
+            if a_coefficient < 0:
+                print(f"Fit1\n\tY = {abs(b_coefficient) / MILLION:.2f} X - {abs(a_coefficient / MILLION):.2f}")
+            else:
+                print(f"Fit1\n\tY = {abs(b_coefficient) / MILLION:.2f} X + {abs(a_coefficient / MILLION):.2f}")
+
+            self.root_mean_square_error_fit1 = self.compute_root_mean_square_error_fit1(a_coefficient, b_coefficient, population_data)
+            print(f"\tRoot-mean-square deviation: {self.root_mean_square_error_fit1:.2f}")
+            print(f"\tPopulation in 2050: {predict:.2f}")
+        else:
+            print("Error: Denominator is zero, unable to calculate.")
+
+    def compute_sums(self):
+        sum_population, sum_year, sum_squared_year, total_population_year_product = 0, 0, 0, 0
+        sum_squared_population = 0
+        population_data = [0] * len(self.year_list)
+        for num in self.year_list:
+            sum_year += num
+        for num in self.year_list:
+            sum_squared_year += pow(num, 2)
+        for i in range(len(self.population_data)):
+            for j in range(len(self.year_list)):
+                population_data[j] += self.population_data[i][j]
+        sum_population = sum(population_data)
+        for i in range(len(self.year_list)):
+            total_population_year_product += self.year_list[i] * population_data[i]
+        for i in range(len(population_data)):
+            sum_squared_population += pow(population_data[i], 2)
+        return sum_population, sum_year, sum_squared_year, total_population_year_product, sum_squared_population, population_data
+
+    def analyze_demography(self):
+        sum_population, sum_year, sum_squared_year, total_population_year_product, sum_squared_population, population_data = self.compute_sums()
+        self.display_countries()
+        self.compute_fit1(sum_year, sum_population, sum_squared_year, total_population_year_product, population_data)
+        try:
+            self.compute_fit2(sum_population, sum_year, sum_squared_population, total_population_year_product, population_data)
+        except ZeroDivisionError:
+            print("Error: Denominator is zero, unable to calculate Fit2.")
+            return
+        if self.root_mean_square_error_fit2 != 0:
+            print(f"Correlation: {self.root_mean_square_error_fit1 / self.root_mean_square_error_fit2:.4f}")
+        else:
+            print("Error: Denominator is zero, unable to calculate correlation.")
+
+    def add_population_data(self, data, index):
+        populations = []
+        parsed_data = data.split("\n")
+        split_data = parsed_data[index].split(";")
+
+        for i in range(2, len(split_data)):
+            int_data = int(split_data[i])
+            populations.append(int_data)
+
+        self.population_data.append(populations)
+
+    def process_demography(self, data, args):
+        index = 0
+        for line in data.splitlines():
+            split = line.split(";")
+            if split[0] == "Country Name":
+                parsed_date = data.split("\n")
+                _date = parsed_date[0].split(";")
+                self.year_list = [int(date) for date in _date[2:]]
+            for i in range(1, len(args)):
+                if args[i] == split[1]:
+                    self.country_list.append(split[0])
+                    self.add_population_data(data, index)
+                    break
+            index += 1
+        self.analyze_demography()
+
+
+def parse_demography_data(args):
+    analyser = DemographyAnalyser()
+
+    with open("207demography_data.csv", newline='') as csvfile:
+        reader = csv.reader(csvfile)
+        csv_data = "\n".join(",".join(row) for row in reader)
+    analyser.process_demography(csv_data, args)
+    if not analyser.country_list or len(analyser.country_list) != len(args) - 1:
+        print("Error: Invalid country code.")
+        return ERROR
+    analyser.country_list.sort()
+    return SUCCESS
+
+def helper():
+    print("USAGE\n   ./207demography code [...]\n")
+    print("DESCRIPTION")
+    print("   code\t    country code")
+    sys.exit(SUCCESS)
+
+def main():
+    args = sys.argv
+    if len(args) == 2 and args[1] in {"-h", "--help"}:
+        helper()
+    result = parse_demography_data(args)
+    sys.exit(result)
+
+if __name__ == "__main__":
+    main()

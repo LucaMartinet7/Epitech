@@ -1,0 +1,126 @@
+#!/usr/bin/env python3
+
+import sys
+import math
+
+class Dowels():
+    distribution = [
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [.00, .02, .06, .15, .27, .45, .71, 1.07, 1.64, 2.71, 3.84, 5.41, 6.63],
+        [.02, .21, .45, .71, 1.02, 1.39, 1.83, 2.41, 3.22, 4.61, 5.99, 7.82, 9.21],
+        [.11, .58, 1.01, 1.42, 1.87, 2.37, 2.95, 3.66, 4.64, 6.25, 7.81, 9.84, 11.34],
+        [.30, 1.06, 1.65, 2.19, 2.75, 3.36, 4.04, 4.88, 5.99, 7.78, 9.49, 9.84, 11.34],
+        [.55, 1.61, 2.34, 3.00, 3.66, 4.35, 5.13, 6.06, 7.29, 9.24, 11.07, 11.67, 13.28],
+        [.7, 2.20, 3.07, 3.83, 4.57, 5.35, 6.21, 7.23, 8.56, 10.64, 12.59, 15.03, 16.81],
+        [1.24, 2.83, 3.82, 4.67, 5.49, 6.35, 7.28, 8.38, 9.80, 12.02, 14.07, 16.62, 18.48],
+        [1.65, 3.49, 4.59, 5.53, 6.42, 7.34, 8.35, 9.52, 11.03, 13.36, 15.51, 18.17, 20.09],
+        [2.09, 4.17, 5.38, 6.39, 7.63, 8.34, 9.41, 10.66, 12.24, 14.68, 16.92, 19.68, 21.67],
+        [2.56, 4.87, 6.18, 7.27, 8.30, 9.34, 10.47, 11.78, 13.44, 15.99, 18.31, 21.16, 23.21]]
+    fit_validity = str()
+    right_off = int()
+    left_off = int()
+    result = list()
+    arr = list()
+    tmp = list()
+
+    def __init__(self, param):
+        self.param = [int(i) for i in param]
+        if sum(self.param) != 100:
+            raise ValueError("must be equal to 100")
+        if any(number < 0 for number in self.param):
+            raise ValueError("must be valid positive integers")
+
+    def sortarr(self):
+        self.left_off = self._combine_small_values(self.param)
+        self.param.reverse()
+        self.right_off = self._combine_small_values(self.param)
+        self.param.reverse()
+
+    def _combine_small_values(self, arr):
+        offset = 0
+        while arr[0] < 10 and len(arr) > 1:
+            arr[0] += arr.pop(1)
+            offset += 1
+        return offset
+
+    def computeValue(self):
+        self.probability = sum(i * self.param[i] for i in range(len(self.param))) / 10000.0
+        self.sortarr()
+        for i in range(8):
+            bin_coeff = math.factorial(100) / (math.factorial(i) * math.factorial(100 - i))
+            prob_term = pow(self.probability, i) * pow(1 - self.probability, 100 - i)
+            self.tmp.append(bin_coeff * 100 * prob_term)
+        self.tmp.append(100 - sum(self.tmp))
+        self.result.append(sum(self.tmp[:self.left_off + 1]))
+        self.result.extend(self.tmp[self.left_off + 1:])
+        self.save = self.result[-(self.right_off + 1):]
+        self.result = self.result[:-(self.right_off + 1)]
+        self.result.append(sum(self.save))
+        self.freedom_degree = len(self.result) - 2
+        self.sum_square = sum(pow(self.param[i] - self.result[i], 2) / self.result[i] for i in range(len(self.result)))
+        self.fit_validity = "P < 1%"
+        self.calculate_fit_validity()
+
+    def calculate_fit_validity(self):
+        if self.distribution[self.freedom_degree][0] > self.sum_square:
+            self.fit_validity = "P > 99%"
+        else:
+            for i in range(len(self.distribution)):
+                if self.distribution[self.freedom_degree][i] > self.sum_square:
+                    self.fit_validity = self._get_probability_range(i)
+                    return
+            self.fit_validity = "P < 1%"
+
+    def _get_probability_range(self, i):
+        if i == 0:
+            return "99% > P > 90%"
+        elif 0 < i <= 10:
+            return f"{100 - i * 10}% < P < {100 - (i - 1) * 10}%"
+        elif i == 11:
+            return "2% < P < 1%"
+        elif i == 12:
+            return "1% < P < 0.1%"
+
+    def printValue(self):
+        print("\t x\t|\t0", end='')
+        print("-%d" % self.left_off if self.left_off > 0 else "", end='')
+        for i in range(self.left_off + 1, len(sys.argv) - 1 - self.right_off):
+            print("\t|\t%d" % i, end='')
+        print("+\t|\tTotal\n\tOx\t|\t", end='')
+        print("\t|\t".join("%d" % i for i in self.param) + "\t|\t100")
+        print("\tTx\t|\t", end='')
+        print("\t|\t".join("%.1f" % i for i in self.result) + "\t|\t100")
+        print("Distribution:\t\t\tB(100, %.4f)" % self.probability)
+        print("Chi-squared:\t\t\t%.3f" % self.sum_square)
+        print("Degrees of freedom:\t\t%d" % self.freedom_degree)
+        print("Fit validity:\t\t\t%s" % self.fit_validity)
+
+def helper():
+    print("""USAGE
+    ./208dowels O0 O1 O2 O3 O4 O5 O6 O7 O8
+DESCRIPTION
+    Oi size of the observed class""")
+
+def main():
+    if len(sys.argv) == 2:
+        if sys.argv[1] == "-h":
+            helper()
+            raise SystemExit()
+    if len(sys.argv) != 10:
+        print("must have 9 valid args", file=sys.stderr)
+        raise SystemExit(84)
+    obj = Dowels(sys.argv[1:])
+    obj.computeValue()
+    obj.printValue()
+
+if __name__ == "__main__":
+    try:
+        main()
+    except SystemExit as e:
+        exit(e.code)
+    except ValueError as error:
+        print(error, file=sys.stderr)
+        exit(84)
+    except BaseException as error:
+        print(error, file=sys.stderr)
+        exit(84)

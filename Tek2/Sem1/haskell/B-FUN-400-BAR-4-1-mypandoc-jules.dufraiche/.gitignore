@@ -1,0 +1,9 @@
+.stack-work/
+mypandoc
+.vscode/
+*~
+
+out.md
+test.json
+test.md
+test.xml

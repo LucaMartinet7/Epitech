@@ -1,0 +1,5 @@
+**.o
+.vscode
+my_teams_cli
+my_teams_server
+coding-style-reports.log

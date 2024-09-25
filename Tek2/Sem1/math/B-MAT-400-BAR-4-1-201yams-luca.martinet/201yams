@@ -1,0 +1,158 @@
+#!/usr/bin/python3
+
+import sys
+from math import factorial, pow
+
+def print_h():
+    print("USAGE")
+    print("\t./201yams d1 d2 d3 d4 d5 c")
+    print("\nDESCRIPTION")
+    print("\td1\tvalue of the first die (0 if not thrown)")
+    print("\td2\tvalue of the second die (0 if not thrown)")
+    print("\td3\tvalue of the third die (0 if not thrown)")
+    print("\td4\tvalue of the fourth die (0 if not thrown)")
+    print("\td5\tvalue of the fifth die (0 if not thrown)")
+    print("\tc\texpected combination")
+
+def getnbr(c):
+    split = c.split('_')
+    if len(split) == 2:
+        if split[0] != 'full':
+            pass
+        if int(split[1]) < 1 or int(split[1]) > 6:
+            print("Error: invalid combination")
+            sys.exit(84)
+        return split
+    elif len(split) == 3:
+        if split[0] != 'full':
+            print("Error: invalid combination")
+            sys.exit(84)
+        if int(split[1]) < 1 or int(split[1]) > 6 or int(split[2]) < 1 or int(split[2]) > 6:
+            print("Error: invalid combination")
+            sys.exit(84)
+        return split
+    return
+
+def binomial_coef(n, k):
+    proba = factorial(n) / (factorial(k) * factorial(n - k))
+    return proba
+
+def binomial(n, k):
+    proba = binomial_coef(n, k) * pow(1 / 6, k) * pow(5 / 6, n - k)
+    return proba
+
+def pair(args, split):
+    res = 0.0
+    nb_occurence = args.count(int(split[1]))
+    if nb_occurence >= 2:
+        res = 1.0
+    else:
+        for x in range(2 - nb_occurence, 6 - nb_occurence):
+            res += binomial(5 - nb_occurence, x)
+    print("Chances to get a " + split[1] + " " + split[0] + ": %.2f" % (res * 100) + "%")
+    return res
+
+def three(args, split):
+    res = 0.0
+    nb_occurence = args.count(int(split[1]))
+    if nb_occurence >= 3:
+        res = 1.0
+    else:
+        for x in range(3 - nb_occurence, 6 - nb_occurence):
+            res += binomial(5 - nb_occurence, x)
+    print("Chances to get a " + split[1] + " " + split[0] + "-of-a-kind" + ": %.2f" % (res * 100) + "%")
+    return res
+
+def four(args, split):
+    res = 0.0
+    nb_occurence = args.count(int(split[1]))
+    if nb_occurence >= 4:
+        res = 1.0
+    else:
+        for x in range(4 - nb_occurence, 6 - nb_occurence):
+            res += binomial(5 - nb_occurence, x)
+    print("Chances to get a " + split[1] + " " + split[0] + "-of-a-kind" + ": %.2f" % (res * 100) + "%")
+
+def yams_combination(args, split):
+    res = 0.0
+    nb_occurence = args.count(int(split[1]))
+    if nb_occurence == 5:
+        res = 1.0
+    else:
+        for x in range(5 - nb_occurence, 6 - nb_occurence):
+            res += binomial(5 - nb_occurence, x)
+    print("Chances to get a " + split[1] + " " + split[0] + ": %.2f" % (res * 100) + "%")
+    return res
+
+def straight(args, split):
+    dice_values = set(args)
+    if len(dice_values) == 1:
+        dice_values.add(0)
+
+    present_dice = 6
+    if dice_values.issuperset([int(split[1])]):
+        present_dice = 5
+
+    probability = factorial(present_dice - len(dice_values)) / pow(6, present_dice - len(dice_values))
+    print("Chances to get a " + split[1] +" " + split[0] + ": %.2f" % (probability * 100) + "%")
+    return probability * 100
+
+def full(number1, number2):
+    result = 1.0
+    if number1 in range(1, 7):
+        apparition1 = 3 if number1 > 3 else 0
+    else:
+        apparition1 = 0
+    if number2 in range(1, 7):
+        apparition2 = 2 if number2 > 2 else 0
+    else:
+        apparition2 = 0
+
+    for n in range(5 - apparition1 - apparition2, 6 - apparition1 - apparition2):
+        proba = factorial(5 - apparition1 - apparition2) / (factorial(n) * factorial(5 - apparition1 - apparition2 - n))
+        result *= proba
+
+    if result > 0.1:
+        result = 0.1
+    print("Chances to get a " + str(number1) + " full of " + str(number2) + ": %.2f" % (result * 1000) + "%")
+    return result * 1000
+
+def yams(args, c):
+    split = getnbr(c)
+    if c.startswith("pair"):
+        pair(args, split)
+    elif c.startswith("three"):
+        three(args, split)
+    elif c.startswith("four"):
+        four(args, split)
+    elif c.startswith("full"):
+        full(split[1], split[2])
+    elif c.startswith("straight"):
+        straight(args, split)
+    elif c.startswith("yams"):
+        yams_combination(args, split)
+    else:
+        print("Error: invalid combination")
+        sys.exit(84)
+    return
+
+def main():
+    try:
+        if len(sys.argv) == 2 and sys.argv[1] == "-h":
+            print_h()
+            return
+        if len(sys.argv) != 7:
+            print("Usage: ./201yams.py d1 d2 d3 d4 d5 c")
+            sys.exit(84)
+        args = [int(sys.argv[i]) for i in range(1, 6)]
+        for i in args:
+            if i < 0 or i > 6:
+                print("Error: d1, d2, d3, d4 and d5 must be between 1 and 6")
+                sys.exit(84)
+        c = sys.argv[6]
+        yams(args, c)
+        return
+    except:
+        sys.exit(84)
+
+main()

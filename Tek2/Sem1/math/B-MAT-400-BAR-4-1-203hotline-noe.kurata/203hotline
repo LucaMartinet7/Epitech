@@ -1,0 +1,55 @@
+#!/usr/bin/python3
+
+import sys
+from math import factorial, exp
+import time
+
+def binomial_coefficient(n, k):
+    return factorial(n) // (factorial(k) * factorial(n - k))
+
+def binomial_distribution(n, p, k):
+    return binomial_coefficient(n, k) * pow(p, k) * pow((1 - p), (n - k))
+
+def poisson_distribution(l, k):
+    return pow(l, k) * exp(-l) / factorial(k)
+
+def print_distribution(name, values, start_time):
+    print(f"{name}:")
+    for i in range(0, len(values), 5):
+        print('\t'.join(f"{k+i} -> {value:.3f}" for k, value in enumerate(values[i:i+5])))
+    overload = sum(values[26:])
+    print(f"Overload: {overload * 100:.1f}%")
+    print(f"Computation time: {(time.time() - start_time) * 1000:.2f} ms")
+
+def calculate_distributions(d):
+    n = 3500
+    p = d / (8 * 60 * 60)
+    l = n * p
+
+    start_time = time.time()
+    binomial_values = [binomial_distribution(n, p, k) for k in range(51)]
+    print_distribution("Binomial distribution", binomial_values, start_time)
+    print()
+    start_time = time.time()
+    poisson_values = [poisson_distribution(l, k) for k in range(51)]
+    print_distribution("Poisson distribution", poisson_values, start_time)
+
+def main():
+    if len(sys.argv) < 2 or len(sys.argv) > 3:
+        print("Usage: ./203hotline [n k | d]\n")
+        exit(84)
+    try:
+        if len(sys.argv) == 3:
+            n = int(sys.argv[1])
+            k = int(sys.argv[2])
+            print(f"{k}-combinations of a set of size {n}:")
+            print(binomial_coefficient(n, k))
+        else:
+            d = int(sys.argv[1])
+            calculate_distributions(d)
+    except ValueError:
+        print("Error: invalid argument\n")
+        exit(84)
+
+if __name__ == "__main__":
+    main()

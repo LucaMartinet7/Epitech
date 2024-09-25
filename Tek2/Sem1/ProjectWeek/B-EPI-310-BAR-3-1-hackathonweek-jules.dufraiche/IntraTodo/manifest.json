@@ -1,0 +1,20 @@
+{
+    "manifest_version": 3,
+    "name": "Intra Todo",
+    "version": "0.9",
+    "description": "Simple and easy tool to plan your Epitech projects! Feedback at 'IntraTodo@contact.com'",
+    "permissions": [
+      "activeTab",
+      "storage",
+      "webNavigation"
+    ],
+    "icons": {
+        "500": "icon.png"
+    },
+    "content_scripts": [
+      {
+        "matches": ["https://intra.epitech.eu/*"],
+        "js": ["todo.js"]
+      }
+    ]
+  }

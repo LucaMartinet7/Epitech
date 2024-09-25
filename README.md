@@ -134,12 +134,12 @@ ProCom
 ├── User Guide
     └── ...
 ```
-### - Security - [Tek1/Sem2/Security(Tek1/Sem2/Security)
+### - Security - [Tek1/Sem2/Security](Tek1/Sem2/Security)
 ```plaintext
 Securit
 ├── Batman_mandatory
 ```
-### - Stumpers - [Tek1/Sem2/Stumpers(Tek1/Sem2/Stumpers)
+### - Stumpers - [Tek1/Sem2/Stumpers](Tek1/Sem2/Stumpers)
 ```plaintext
 Stumpers
 ├── Solo
@@ -147,7 +147,7 @@ Stumpers
 ├── Duo
 │   ├── ...
 ```
-### - Web - [Tek1/Sem2/Web(Tek1/Sem2/Web)
+### - Web - [Tek1/Sem2/Web](Tek1/Sem2/Web)
 ```plaintext
 Web
 ├── Epytodo

@@ -1,0 +1,7 @@
+SoulConnect/obj/*
+SoulConnect/bin/*
+SoulConnect/wwwroot/images/clothes/*.jpg
+/SoulConnect/.vs
+/SoulConnect/wwwroot/images
+*.jpg
+/SoulConnect/obj

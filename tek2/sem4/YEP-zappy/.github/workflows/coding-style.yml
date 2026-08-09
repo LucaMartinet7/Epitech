@@ -1,0 +1,38 @@
+# name: Check Coding Style
+
+# on:
+#   push:
+#     branches:
+#       - main
+#   pull_request:
+#     branches-ignore:
+#       - 'ga-ignore-**'
+
+# jobs:
+#   check_coding_styles:
+#     name: "Check coding styles"
+#     runs-on: ubuntu-latest
+#     container: ghcr.io/epitech/coding-style-checker:latest
+#     steps:
+#       - uses: actions/checkout@v3
+#       - id: check_coding_style
+#         run: |
+#           check.sh $(pwd) $(pwd)
+#           if [ -e coding-style-reports.log ]
+#           then
+#             exit 1
+#           fi
+#           SIZE=$(wc -l < coding-style-reports.log)
+#           if [ $SIZE -eq 0 ]
+#           then
+#             exit 0
+#           else
+#             while IFS= read -r line
+#             do
+#               echo "::set-output name=message::$line"
+#             done < coding-style-reports.log
+#             echo "Caching error message for failure"
+#             echo "${steps.check_coding_style.outputs.message}"
+#             exit 1
+#           fi
+

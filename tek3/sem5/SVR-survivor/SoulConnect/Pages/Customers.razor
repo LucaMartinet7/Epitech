@@ -1,0 +1,164 @@
+@page "/customers"
+@using SoulConnect.Models
+@using SoulConnect.Services
+@using Microsoft.EntityFrameworkCore
+@inject SoulConnect.Data.AppDbContext DbContext
+
+<PageTitle>Customers</PageTitle>
+
+<div class="main-content">
+    <h1>Customers</h1>
+
+    <div class="horizontal-bar"></div>
+
+    <div class="customer-selection">
+        <label for="customer">Customer:</label>
+        <select @onchange="OnCustomerSelected" id="customer">
+            @if (customers != null)
+            {
+                @foreach (var customer in customers)
+                {
+                    <option value="@customer.Id">@customer.Name @customer.Surname</option>
+                }
+            }
+        </select>
+    </div>
+
+    <div class="profile-container" style="display: @(selectedCustomer != null ? "flex" : "none")">
+        <div class="client-info">
+            @if (selectedCustomer != null)
+            {
+                <h2>@selectedCustomer.Name @selectedCustomer.Surname</h2>
+                <p><strong>Date of Birth:</strong> @selectedCustomer.BirthDate.ToString("dd/MM/yyyy")</p>
+                <p><strong>Address:</strong> @selectedCustomer.Address</p>
+                <p><strong>Gender:</strong> @selectedCustomer.Gender</p>
+            }
+        </div>
+        <div class="profile-pic-container">
+            <img src="@GetCustomerImagePath(selectedCustomer?.Id)" alt="Profile Picture" class="profile-pic">
+        </div>
+    </div>
+
+    <div class="horizontal-bar"></div>
+
+    <div class="tables-container" style="display: @(selectedCustomer != null ? "block" : "none")">
+        <div class="table-section">
+            <h2>Payments</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Amount</th>
+                        <th>Payment Method</th>
+                        <th>Comment</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (selectedCustomerPayments != null && selectedCustomerPayments.Any())
+                    {
+                        @foreach (var payment in selectedCustomerPayments)
+                        {
+                            <tr>
+                                <td>@payment.Date?.ToString("yyyy-MM-dd")</td>
+                                <td>@payment.Amount?.ToString("0.00") €</td>
+                                <td>@payment.PaymentMethod</td>
+                                <td>@payment.Comment</td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr><td colspan="4">No payments found for this customer.</td></tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <div class="table-section">
+            <h2>Encounters</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Rating</th>
+                        <th>Comment</th>
+                        <th>Source</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (selectedCustomerEncounters != null && selectedCustomerEncounters.Any())
+                    {
+                        @foreach (var encounter in selectedCustomerEncounters)
+                        {
+                            <tr>
+                                <td>@encounter.Date?.ToString("yyyy-MM-dd")</td>
+                                <td>@encounter.Rating/5</td>
+                                <td>@encounter.Comment</td>
+                                <td>@encounter.Source</td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr><td colspan="4">No encounters found for this customer.</td></tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@code {
+    private List<Customer> customers;
+    private Customer selectedCustomer;
+    private List<PaymentHistory> selectedCustomerPayments;
+    private List<Encounter> selectedCustomerEncounters;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            // Load all customers from the database
+            customers = await DbContext.Customers.ToListAsync();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Error fetching customers: " + ex.Message);
+        }
+    }
+
+    private async Task OnCustomerSelected(ChangeEventArgs e)
+    {
+        var selectedCustomerId = int.Parse(e.Value.ToString());
+
+        try
+        {
+            // Fetch selected customer details
+            selectedCustomer = await DbContext.Customers
+                .FirstOrDefaultAsync(c => c.Id == selectedCustomerId);
+
+            // Fetch payment histories linked to the selected customer
+            selectedCustomerPayments = await DbContext.PaymentHistories
+                .Where(p => p.Id == selectedCustomerId) // Assuming PaymentHistory model has CustomerId
+                .ToListAsync();
+
+            // Fetch encounters linked to the selected customer
+            selectedCustomerEncounters = await DbContext.Encounters
+                .Where(e => e.CustomerId == selectedCustomerId)
+                .ToListAsync();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Error fetching customer data: " + ex.Message);
+        }
+    }
+
+    private string GetCustomerImagePath(int? customerId)
+    {
+        if (customerId.HasValue)
+        {
+            return $"/images/customers/{customerId.Value}.jpg";
+        }
+        return "/images/placeholder.png"; // Default placeholder image
+    }
+}

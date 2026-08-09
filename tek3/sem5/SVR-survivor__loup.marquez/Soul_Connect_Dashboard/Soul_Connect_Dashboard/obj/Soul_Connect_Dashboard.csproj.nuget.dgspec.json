@@ -1,0 +1,170 @@
+{
+  "format": 1,
+  "restore": {
+    "\\\\Mac\\Home\\Documents\\GitHub\\B-SVR-500-BER-5-1-survivor-loup.marquez\\Soul_Connect_Dashboard\\Soul_Connect_Dashboard\\Soul_Connect_Dashboard.csproj": {}
+  },
+  "projects": {
+    "\\\\Mac\\Home\\Documents\\GitHub\\B-SVR-500-BER-5-1-survivor-loup.marquez\\Soul_Connect_Dashboard\\Soul_Connect_Dashboard.Client\\Soul_Connect_Dashboard.Client.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "\\\\Mac\\Home\\Documents\\GitHub\\B-SVR-500-BER-5-1-survivor-loup.marquez\\Soul_Connect_Dashboard\\Soul_Connect_Dashboard.Client\\Soul_Connect_Dashboard.Client.csproj",
+        "projectName": "Soul_Connect_Dashboard.Client",
+        "projectPath": "\\\\Mac\\Home\\Documents\\GitHub\\B-SVR-500-BER-5-1-survivor-loup.marquez\\Soul_Connect_Dashboard\\Soul_Connect_Dashboard.Client\\Soul_Connect_Dashboard.Client.csproj",
+        "packagesPath": "C:\\Users\\loupmarquez\\.nuget\\packages\\",
+        "outputPath": "\\\\Mac\\Home\\Documents\\GitHub\\B-SVR-500-BER-5-1-survivor-loup.marquez\\Soul_Connect_Dashboard\\Soul_Connect_Dashboard.Client\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\loupmarquez\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "Microsoft.AspNetCore.Components.WebAssembly": {
+              "target": "Package",
+              "version": "[8.0.8, )"
+            },
+            "Microsoft.NET.ILLink.Tasks": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[8.0.8, )",
+              "autoReferenced": true
+            },
+            "Microsoft.NET.Sdk.WebAssembly.Pack": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[8.0.8, )",
+              "autoReferenced": true
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.NETCore.App.Runtime.Mono.browser-wasm",
+              "version": "[8.0.8, 8.0.8]"
+            }
+          ],
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
+        }
+      },
+      "runtimes": {
+        "browser-wasm": {
+          "#import": []
+        }
+      }
+    },
+    "\\\\Mac\\Home\\Documents\\GitHub\\B-SVR-500-BER-5-1-survivor-loup.marquez\\Soul_Connect_Dashboard\\Soul_Connect_Dashboard\\Soul_Connect_Dashboard.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "\\\\Mac\\Home\\Documents\\GitHub\\B-SVR-500-BER-5-1-survivor-loup.marquez\\Soul_Connect_Dashboard\\Soul_Connect_Dashboard\\Soul_Connect_Dashboard.csproj",
+        "projectName": "Soul_Connect_Dashboard",
+        "projectPath": "\\\\Mac\\Home\\Documents\\GitHub\\B-SVR-500-BER-5-1-survivor-loup.marquez\\Soul_Connect_Dashboard\\Soul_Connect_Dashboard\\Soul_Connect_Dashboard.csproj",
+        "packagesPath": "C:\\Users\\loupmarquez\\.nuget\\packages\\",
+        "outputPath": "\\\\Mac\\Home\\Documents\\GitHub\\B-SVR-500-BER-5-1-survivor-loup.marquez\\Soul_Connect_Dashboard\\Soul_Connect_Dashboard\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\loupmarquez\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "\\\\Mac\\Home\\Documents\\GitHub\\B-SVR-500-BER-5-1-survivor-loup.marquez\\Soul_Connect_Dashboard\\Soul_Connect_Dashboard.Client\\Soul_Connect_Dashboard.Client.csproj": {
+                "projectPath": "\\\\Mac\\Home\\Documents\\GitHub\\B-SVR-500-BER-5-1-survivor-loup.marquez\\Soul_Connect_Dashboard\\Soul_Connect_Dashboard.Client\\Soul_Connect_Dashboard.Client.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "Microsoft.AspNetCore.Components.WebAssembly.Server": {
+              "target": "Package",
+              "version": "[8.0.8, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

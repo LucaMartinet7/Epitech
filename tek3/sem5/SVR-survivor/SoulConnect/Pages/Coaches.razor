@@ -1,0 +1,98 @@
+@page "/coaches"
+@using SoulConnect.Models
+@using SoulConnect.Services
+@using Microsoft.EntityFrameworkCore
+@inject SoulConnect.Data.AppDbContext DbContext
+
+<PageTitle>Coaches</PageTitle>
+
+<div class="container">
+    <main class="content">
+        <h1>Coaches</h1>
+
+        <div class="horizontal-bar"></div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Birth Date</th>
+                    <th>Edit list</th>
+                    <th>Contact</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var coach in CoachList)
+                {
+                    <tr>
+                        <td>@coach.Id</td>
+                        <td>@coach.Name</td>
+                        <td>
+                            @if (coach.BirthDate.HasValue)
+                            {
+                                @coach.BirthDate.Value.ToString("dd-MM-yyyy")
+                            }
+                        </td>
+                        <td>
+                            <div class="edit-container">
+                                <button class="edit-btn" onclick="showDropdown(this)">Edit list</button>
+                                <div class="dropdown" id="dropdown-@coach.Id">
+                                    @foreach (var client in Clients)
+                                    {
+                                        <label>
+                                            <input type="checkbox" name="client-@client.Id">
+                                            @client.Name @client.Surname
+                                        </label>
+                                    }
+                                </div>
+                            </div>
+                        </td>
+                        <td>@coach.Email</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </main>
+    <script>
+        function showDropdown(button) {
+            document.querySelectorAll('.dropdown').forEach(dropdown => {
+                dropdown.style.display = 'none';
+            });
+
+            const dropdown = button.nextElementSibling;
+
+            const rect = button.getBoundingClientRect();
+
+            dropdown.style.top = rect.bottom + 'px';
+            dropdown.style.left = rect.left + 'px';
+
+            if (dropdown.style.display === 'block') {
+                dropdown.style.display = 'none';
+            } else {
+                dropdown.style.display = 'block';
+            }
+
+            document.addEventListener('click', function (event) {
+                const isClickInsideButton = button.contains(event.target);
+                const isClickInsideDropdown = dropdown.contains(event.target);
+                const isClickInsideTable = document.querySelector('table').contains(event.target);
+
+                if (!isClickInsideButton && !isClickInsideDropdown && !isClickInsideTable) {
+                    dropdown.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</div>
+
+@code {
+    private List<Employee> CoachList = new List<Employee>();
+    private List<Customer> Clients = new List<Customer>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        CoachList = await DbContext.Employees.ToListAsync();
+        Clients = await DbContext.Customers.ToListAsync();
+    }
+}

@@ -1,0 +1,31 @@
+is_global = true
+build_property.TargetFramework = net8.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = Soul_Connect_Dashboard
+build_property.RootNamespace = Soul_Connect_Dashboard
+build_property.ProjectDir = \\Mac\Home\Documents\GitHub\B-SVR-500-BER-5-1-survivor-loup.marquez\Soul_Connect_Dashboard\Soul_Connect_Dashboard\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.RazorLangVersion = 8.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = \\Mac\Home\Documents\GitHub\B-SVR-500-BER-5-1-survivor-loup.marquez\Soul_Connect_Dashboard\Soul_Connect_Dashboard
+build_property._RazorSourceGeneratorDebug = 
+
+[//Mac/Home/Documents/GitHub/B-SVR-500-BER-5-1-survivor-loup.marquez/Soul_Connect_Dashboard/Soul_Connect_Dashboard/Components/App.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xBcHAucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[//Mac/Home/Documents/GitHub/B-SVR-500-BER-5-1-survivor-loup.marquez/Soul_Connect_Dashboard/Soul_Connect_Dashboard/Components/Pages/Error.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xFcnJvci5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[//Mac/Home/Documents/GitHub/B-SVR-500-BER-5-1-survivor-loup.marquez/Soul_Connect_Dashboard/Soul_Connect_Dashboard/Components/_Imports.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xfSW1wb3J0cy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 

@@ -1,0 +1,102 @@
+@page "/events"
+@using SoulConnect.Models
+@using SoulConnect.Services
+@using Microsoft.EntityFrameworkCore
+@inject SoulConnect.Data.AppDbContext DbContext
+@inject IJSRuntime JSRuntime
+
+<PageTitle>Events</PageTitle>
+
+<div class="container">
+    <main class="content">
+        <h1>Events</h1>
+
+        <div class="horizontal-bar"></div>
+
+        <div id="map" style="width: 50%; height: 600px;"></div>
+
+        <div class="event-list">
+            @if (EventsList != null && EventsList.Any())
+            {
+                @foreach (var ev in EventsList)
+                {
+                    <div class="event-card">
+                        <h3>@ev.Name</h3>
+                        <p><i class="fa fa-map-marker"></i> @ev.LocationName</p>
+                        <p>Date: @ev.Date?.ToString("dd/MM/yyyy")</p>
+                        <p>Max participants: @ev.MaxParticipants</p>
+                    </div>
+                }
+            }
+            else
+            {
+                <p>No events available.</p>
+            }
+        </div>
+    </main>
+    <script src="https://api.tiles.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.js"></script>
+    <link href="https://api.tiles.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.css" rel="stylesheet" />
+    <script>
+        window.initializeMap = (mapContainerId, accessToken, geojson) => {
+            mapboxgl.accessToken = accessToken;
+
+            const map = new mapboxgl.Map({
+                container: mapContainerId,
+                style: 'mapbox://styles/mapbox/light-v11',
+                center: [-96, 37.8],
+                zoom: 3
+            });
+
+            map.addControl(new mapboxgl.NavigationControl());
+
+            for (const feature of geojson.features) {
+                const el = document.createElement('div');
+                el.className = 'marker';
+
+                new mapboxgl.Marker(el)
+                    .setLngLat(feature.geometry.coordinates)
+                    .setPopup(
+                        new mapboxgl.Popup({ offset: 25 })
+                            .setHTML(`<h3>${feature.properties.title}</h3><p>${feature.properties.description}</p>`)
+                    )
+                    .addTo(map);
+            }
+        };
+    </script>
+</div>
+
+@code {
+    private List<Events> EventsList { get; set; } = new List<Events>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            EventsList = await DbContext.Events.ToListAsync();
+            var geojson = new
+            {
+                type = "FeatureCollection",
+                features = EventsList.Select(ev => new
+                {
+                    type = "Feature",
+                    geometry = new
+                    {
+                        type = "Point",
+                        coordinates = new[] { ev.LocationY, ev.LocationX }
+                    },
+                    properties = new
+                    {
+                        title = ev.Name,
+                        description = ev.LocationName
+                    }
+                }).ToArray()
+            };
+
+            await JSRuntime.InvokeVoidAsync("initializeMap", "map", "pk.eyJ1IjoidG91bm4iLCJhIjoiY20weHdrNDg0MGNrbjJqcXZ5NHhtdnV6dSJ9.HK0IdChF3mllp7Ruts549Q", geojson);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"An error occurred: {ex.Message}");
+        }
+    }
+}

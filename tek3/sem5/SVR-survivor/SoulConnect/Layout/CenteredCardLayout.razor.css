@@ -1,0 +1,26 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "SUSE", sans-serif;
+}
+
+.box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    /*
+    background: url('img.jpg') no-repeat;
+    background-size: cover;
+    background-position: center;
+    */
+}
+
+.logbox {
+    width: 420px;
+    background: black;
+    color: white;
+    border-radius: 10px;
+    padding: 30px 40px;
+}

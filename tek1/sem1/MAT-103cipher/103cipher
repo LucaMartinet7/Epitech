@@ -1,0 +1,135 @@
+#!/usr/bin/python3
+import sys
+import math
+
+def help():
+    print("USAGE")
+    print("\t./103cipher message key flag\n")
+    print("DESCRIPTION")
+    print("\tmessage\ta message, made of ASCII characters")
+    print("\tkey\tthe encryption key, made of ASCII characters")
+    print("\tflag\t0 for the message to be encrypted, 1 to be decrypted")
+
+def error():
+    if len(sys.argv) != 4:
+        print("Error: Invalid number of arguments")
+        print("USAGE")
+        print("\t./103cipher message key flag")
+        print("Run './103cipher -h' for more information")
+        exit(84)
+
+def get_mat(key):
+    mat_size = math.ceil(math.sqrt(len(key)))
+    matrix = [[0 for i in range(mat_size)] for j in range(mat_size)]
+    k = 0
+    x = 0
+    y = 0
+    for line in matrix:
+        y = 0
+        for value in line:
+            if k < len(key):
+                matrix[x][y] = ord(key[k])
+            k = k + 1
+            y = y + 1
+        x = x + 1
+    return matrix
+
+def printcheck(msg, i):
+    if ord(msg[i]) < 177:
+        return i
+    else:
+        return print(msg, i + 1)
+
+def get_msg(msg, mat_size):
+    mathau = math.ceil(len(msg) / mat_size) + 1
+    msg_mat = [[0 for i in range(mat_size)] for j in range(mathau - 1)]
+    i = 0
+    x = 0
+    y = 0
+    for line in msg_mat:
+        for value in line :
+            if i < len(msg):
+                i = printcheck(msg, i)
+                msg_mat[x][y] = ord(msg[i])
+            i = i + 1
+            y = y + 1
+        x = x + 1
+        y = 0
+    return msg_mat
+
+def mult(mat1, mat2, l, c):
+    mat1_l = mat1[l]
+    mat2_c = [mat2[i][c] for i in range(len(mat2))]
+    res = 0
+    for x in range(len(mat1[0])):
+        res += float(mat1_l[x]) * mat2_c[x]
+    return round(res)
+
+def multimat(mat1, mat2):
+    mat1hau = len(mat1)
+    mat1wid = len(mat1[0])
+    res = [[0 for i in range(mat1wid)] for j in range(mat1hau)]
+    c = 0
+    l = 0
+    for line in res:
+        c = 0
+        for c in line:
+            res[l][c] = mult(mat1, mat2, l, c)
+            c += 1
+        l += 1
+    return res
+
+def ret1(matrix, encrypt_msg, flag):
+    if flag == 0:
+        print("Key matrix:")
+        for i in range(len(matrix)):
+            for j in range(len(matrix[0])):
+                if j == len(matrix[0]) - 1:
+                    print(matrix[i][j])
+                else:
+                    print(matrix[i][j], end='\t')
+        print("\nEncrypted message:")
+        for line in encrypt_msg:
+            for value in line:
+                if value == encrypt_msg[-1][-1]:
+                    print(value, end='')
+                else:
+                    print(value, end=' ')
+
+def ret2(matrix, encrypt_msg, flag):
+    if flag == 1:
+        print("Key matrix:")
+        for i in range(len(matrix)):
+            for j in range(len(matrix[0])):
+                if j == len(matrix[0]) - 1:
+                    print(format(matrix[i][j], ".3f"))
+                else:
+                    print(format(matrix[i][j], ".3f"), end='\t')
+        print("\nDecrypted message:")
+        for line in encrypt_msg:
+            for value in line:
+                if value == encrypt_msg[-1][-1]:
+                    print(chr(int(value)), end='')
+                else:
+                    print(chr(int(value)), end='')
+
+def main():
+    if (len(sys.argv) == 2) and (sys.argv[1] == '-h'):
+        help()
+        exit(0)
+    else:
+        error()
+    msg = sys.argv[1]
+    key = sys.argv[2]
+    flag = int(sys.argv[3])
+    if flag == 0:
+        matrix = get_mat(key)
+        msg = get_msg(msg, len(matrix[0]))
+        encrypt_msg = multimat(msg, matrix)
+        ret1(matrix, encrypt_msg, flag)
+        ret2(matrix, encrypt_msg, flag)
+    print("")
+
+
+if __name__ == "__main__":
+    main()

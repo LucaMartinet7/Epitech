@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://ddhruokmkhwcg"]
+
+[ext_resource type="Texture2D" uid="uid://82hjnat5slui" path="res://icon.svg" id="1_rdbu1"]
+
+[node name="Main" type="Node"]
+
+[node name="GDExample" type="GDExample" parent="."]
+position = Vector2(19.3304, 19.932)
+texture = ExtResource("1_rdbu1")
+centered = false
+
+[node name="Camera2D" type="Camera2D" parent="."]
+anchor_mode = 0

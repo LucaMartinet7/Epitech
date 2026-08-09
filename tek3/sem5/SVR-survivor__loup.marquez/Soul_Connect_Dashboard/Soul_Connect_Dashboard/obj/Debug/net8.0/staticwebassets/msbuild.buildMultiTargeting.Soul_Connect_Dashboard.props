@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\Soul_Connect_Dashboard.props" />
+</Project>

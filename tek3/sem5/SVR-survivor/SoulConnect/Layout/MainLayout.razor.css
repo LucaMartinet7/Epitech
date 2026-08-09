@@ -1,0 +1,41 @@
+.page {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(240, 240, 240);;
+}
+
+main {
+    flex: 1;
+}
+
+.sidebar {
+    background-color: rgb(240, 240, 240);
+    padding-top: 80px;
+    position: relative;
+}
+
+.sidebar::after {
+    content: '';
+    position: absolute;
+    top: 40px;
+    bottom: 40px;
+    right: 0;
+    width: 2px;
+    background-color: #323232;
+    box-shadow: 3px 0 4px rgba(0, 0, 0, 0.2);
+}
+
+@media (min-width: 641px) {
+    .page {
+        flex-direction: row;
+    }
+
+    .sidebar {
+        width: 280px;
+        height: 100vh;
+        position: sticky;
+        top: 0;
+    }
+
+}

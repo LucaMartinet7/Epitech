@@ -1,0 +1,33 @@
+name: nell
+description: "The Nell Dashboard"
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: '>=2.18.6 <3.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_login: ^5.0.0
+  google_fonts: ^6.2.1
+  http: ^1.2.2
+  url_launcher: ^6.1.10
+  tuple: ^2.0.0
+  shared_preferences: ^2.3.2
+  url_strategy: ^0.2.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true
+  fonts:
+    - family: ClashGrotesk
+      fonts:
+        - asset: assets/fonts/ClashGrotesk-Variable.ttf
+  assets:
+    - assets/images/
+    - assets/vectors/

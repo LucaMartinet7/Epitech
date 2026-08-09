@@ -1,0 +1,109 @@
+﻿@page "/Login"
+@layout Layout.CenteredCardLayout
+@inject SoulConnect.Data.AppDbContext DbContext
+@inject NavigationManager NavigationManager
+
+@using SoulConnect.Models
+@using Microsoft.EntityFrameworkCore
+@using Microsoft.AspNetCore.Components.Forms
+
+<PageTitle>Login</PageTitle>
+
+<h1>Login</h1>
+<EditForm Model="userCredential" OnSubmit="HandleSubmit" FormName="Login">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="input-box">
+        <InputText @bind-Value="userCredential.Email" type="email" placeholder="Email" class="custom-input" required
+                   style="width: 100%; height: 100%; background: transparent; outline: none; border: 2px solid rgba(255, 255, 255, .2); border-radius: 20px; font-size: 16px; color: white; padding: 20px 45px 20px 20px;" />
+        <i class='bx bxs-user'></i>
+    </div>
+
+    <div class="input-box">
+        <InputText @bind-Value="userCredential.Password" type="password" placeholder="Password" class="custom-input" required
+                   style="width: 100%; height: 100%; background: transparent; outline: none; border: 2px solid rgba(255, 255, 255, .2); border-radius: 20px; font-size: 16px; color: white; padding: 20px 45px 20px 20px;" />
+    </div>
+
+    <div class="button-container">
+        <button type="submit" class="button" style="width: 100%; height: 45px; background: white; border: none; outline: none; border-radius: 40px; box-shadow: 0 0 10px rgba(0, 0, 0, .1); cursor: pointer; font-size: 16px; color: black; font-weight: 600;">Login</button>
+    </div>
+</EditForm>
+@if (!string.IsNullOrEmpty(errorMessage))
+{
+    <div class="error-message" style="color: red; text-align: center; margin-top: 10px;">
+        @errorMessage
+    </div>
+}
+
+<div class="register-link" style="font-size: 14px; text-align: center; margin: 20px 0 15px;">
+    <p><a href="/register" style="color: white; text-decoration: none; font-weight: 600;">Don't have an account? Register</a></p>
+</div>
+
+
+@code {
+    private Credentials userCredential = new Credentials();
+    private string errorMessage = string.Empty;
+    private int role = 0;
+    private async Task HandleSubmit(EditContext context)
+    {
+        bool isValid = await ValidateCredentialsAsync(userCredential.Email, userCredential.Password);
+        if (!isValid)
+        {
+            errorMessage = "Invalid email or password";
+            return;
+        }
+        role = await GetEmployeeRoleAsync(userCredential.Email);
+        if (role == 0)
+        {
+            role = await GetCustomerRoleAsync(userCredential.Email);
+        }
+        if (role == 0)
+        {
+            errorMessage = "No role assigned to this account.";
+        }
+        else
+        {
+            NavigationManager.NavigateTo("/");
+        }
+    }
+
+    private async Task<bool> ValidateCredentialsAsync(string email, string password)
+    {
+        List<Credentials> storedCredentials = await DbContext.Credentials.ToListAsync();
+        foreach (var credential in storedCredentials)
+        {
+            if (credential.Email == email && credential.Password == password)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private async Task<int> GetEmployeeRoleAsync(string email)
+    {
+        List<Employee> storedEmployees = await DbContext.Employees.ToListAsync();
+        foreach (var employee in storedEmployees)
+        {
+            if (employee.Email == email)
+            {
+                return 1;
+            }
+        }
+        return 0;
+    }
+
+    private async Task<int> GetCustomerRoleAsync(string email)
+    {
+        List<Customer> storedCustomers = await DbContext.Customers.ToListAsync();
+        foreach (var customer in storedCustomers)
+        {
+            if (customer.Email == email)
+            {
+                return 2;
+            }
+        }
+        return 0;
+    }
+}

@@ -1,0 +1,39 @@
+@page "/tips"
+@using SoulConnect.Services
+@using SoulConnect.Models
+@using Microsoft.EntityFrameworkCore
+@inject SoulConnect.Data.AppDbContext DbContext
+
+<PageTitle>Tips</PageTitle>
+
+<h1> Tips </h1>
+<div class="horizontal-bar"></div>
+<div class="content">
+    <div class="tips">
+        @if (tips != null && tips.Any())
+        {
+            @foreach (var tip in tips)
+            {
+                <div class="tip">
+                    <h2>@tip.Title</h2>
+                    <p>@tip.TipContent</p>
+                </div>
+            }
+        }
+        else
+        {
+            <p>Loading tips...</p>
+        }
+    </div>
+</div>
+
+@code {
+    private List<Tip> tips;
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        tips = await DbContext.Tips.ToListAsync();
+        tips = tips.OrderBy(t => Guid.NewGuid()).Take(9).ToList();
+    }
+}

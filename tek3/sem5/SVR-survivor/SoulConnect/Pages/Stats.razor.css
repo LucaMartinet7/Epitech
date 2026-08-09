@@ -1,0 +1,52 @@
+/* General Layout Styles */
+.container {
+    max-width: 100%;
+    padding: 0;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.chart-box {
+    border: 2px solid #ccc; /* Adjust border color */
+    border-radius: 8px;
+    padding: 20px;
+    background-color: white; /* Background of the box */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Optional shadow for depth */
+    flex: 1 1 calc(50% - 20px); /* Each chart box takes 50% width with spacing */
+    margin-bottom: 20px;
+    max-width: 100%;
+}
+
+/* Horizontal Bar */
+.horizontal-bar {
+    display: block;
+    width: 100%;
+    height: 2px;
+    background-color: #323232;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    margin: 10px 0 20px 0;
+}
+
+/* Chart Styles */
+.chart {
+    width: 100%;
+    height: auto;
+    max-height: 500px;
+}
+
+/* Media Queries for Responsive Layout */
+@media (max-width: 768px) {
+    .chart-box {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+
+    .chart {
+        max-height: 300px;
+    }
+}

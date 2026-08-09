@@ -1,0 +1,176 @@
+#--------------------------------------------------------------------------- 
+# Project related configuration options 
+#---------------------------------------------------------------------------
+
+DOXYFILE_ENCODING      = UTF-8
+PROJECT_NAME           = "R-Type"
+PROJECT_NUMBER         =
+PROJECT_BRIEF          =
+PROJECT_LOGO           =
+PROJECT_ICON           =
+USE_MDFILE_AS_MAINPAGE = README.md
+# Set this to the folder you want to use for the generated documentation.
+# For example, "docs" or "build/docs".
+OUTPUT_DIRECTORY       = docs
+
+CREATE_SUBDIRS         = YES
+CREATE_SUBDIRS_LEVEL   = 8
+ALLOW_UNICODE_NAMES    = NO
+OUTPUT_LANGUAGE        = English
+
+#--------------------------------------------------------------------------- 
+# Build related configuration options 
+#---------------------------------------------------------------------------
+
+# If you set EXTRACT_ALL = YES, Doxygen will produce documentation for ALL
+# entities (even those without doc comments).
+EXTRACT_ALL            = YES
+
+# You can hide any undocumented namespaces to keep them out of your docs.
+HIDE_UNDOC_NAMESPACES  = NO
+
+# If you only want to document public stuff, keep EXTRACT_PRIVATE = NO.
+EXTRACT_PRIVATE        = NO
+
+#--------------------------------------------------------------------------- 
+# Configuration options related to the input files 
+#---------------------------------------------------------------------------
+
+INPUT                  = ./src \
+                        ./include \
+                        ./assets \
+                        ./Client \
+                        ./Documentation \
+                        ./Server \
+                        ./ECS \
+                        ./GameEngine \
+                        ./README.md
+# Add paths to your source/include directories above (adjust as needed).
+# You can add more folders with a backslash line break.
+
+RECURSIVE              = YES
+
+FILE_PATTERNS          = *.c \
+                         *.cc \
+                         *.cxx \
+                         *.cxxm \
+                         *.cpp \
+                         *.cppm \
+                         *.ccm \
+                         *.c++ \
+                         *.c++m \
+                         *.java \
+                         *.ii \
+                         *.ixx \
+                         *.ipp \
+                         *.i++ \
+                         *.inl \
+                         *.idl \
+                         *.ddl \
+                         *.odl \
+                         *.h \
+                         *.hh \
+                         *.hxx \
+                         *.hpp \
+                         *.h++ \
+                         *.ixx \
+                         *.l \
+                         *.cs \
+                         *.d \
+                         *.php \
+                         *.php4 \
+                         *.php5 \
+                         *.phtml \
+                         *.inc \
+                         *.m \
+                         *.markdown \
+                         *.md \
+                         *.mm \
+                         *.dox \
+                         *.py \
+                         *.pyw \
+                         *.f90 \
+                         *.f95 \
+                         *.f03 \
+                         *.f08 \
+                         *.f18 \
+                         *.f \
+                         *.for \
+                         *.vhd \
+                         *.vhdl \
+                         *.ucf \
+                         *.qsf \
+                         *.ice
+
+#--------------------------------------------------------------------------- 
+# Configuration options related to source browsing 
+#---------------------------------------------------------------------------
+
+SOURCE_BROWSER         = NO
+INLINE_SOURCES         = NO
+STRIP_CODE_COMMENTS    = YES
+
+#--------------------------------------------------------------------------- 
+# Configuration options related to the alphabetical index 
+#---------------------------------------------------------------------------
+
+ALPHABETICAL_INDEX     = YES
+DISABLE_INDEX          = YES
+
+#--------------------------------------------------------------------------- 
+# HTML output 
+#---------------------------------------------------------------------------
+
+GENERATE_HTML          = YES
+HTML_OUTPUT            = html
+HTML_FILE_EXTENSION    = .html
+GENERATE_TREEVIEW      = YES
+TREEVIEW_WIDTH         = 250
+SEARCHENGINE           = YES
+
+#--------------------------------------------------------------------------- 
+# LaTeX output 
+#---------------------------------------------------------------------------
+
+GENERATE_LATEX         = NO
+
+#--------------------------------------------------------------------------- 
+# GraphViz (Dot) configuration 
+#---------------------------------------------------------------------------
+
+# IMPORTANT: Install Graphviz so Doxygen can generate graphs.
+
+HAVE_DOT              = YES
+DOT_PATH              = /usr/bin
+DOT_NUM_THREADS       = 0
+DOT_IMAGE_FORMAT      = png
+INTERACTIVE_SVG       = YES     # Set to YES if you want interactive SVG diagrams.
+DOT_GRAPH_MAX_NODES   = 50
+MAX_DOT_GRAPH_DEPTH   = 0
+DOT_MULTI_TARGETS     = NO
+GENERATE_LEGEND       = YES
+DOT_CLEANUP           = YES
+
+#--------------------------------------------------------------------------- 
+# Graph options 
+#---------------------------------------------------------------------------
+
+CLASS_GRAPH           = YES
+COLLABORATION_GRAPH   = YES
+GROUP_GRAPHS          = YES
+
+CALL_GRAPH            = YES
+CALLER_GRAPH          = YES
+
+# Include dependency graphs for files:
+INCLUDE_GRAPH         = YES
+INCLUDED_BY_GRAPH     = YES
+
+GRAPHICAL_HIERARCHY   = YES
+DIRECTORY_GRAPH       = YES
+DIR_GRAPH_MAX_DEPTH   = 1
+
+#--------------------------------------------------------------------------- 
+# Other options not shown remain at their default values 
+# (or as you initially had them).
+#---------------------------------------------------------------------------

@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35222.181
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Soul_Connect_Dashboard", "Soul_Connect_Dashboard\Soul_Connect_Dashboard.csproj", "{2C1F9BC4-BADC-4820-8C56-41EB6EDFDB81}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Soul_Connect_Dashboard.Client", "Soul_Connect_Dashboard.Client\Soul_Connect_Dashboard.Client.csproj", "{BA9D42AD-8617-4227-850D-CE9E3634003A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2C1F9BC4-BADC-4820-8C56-41EB6EDFDB81}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C1F9BC4-BADC-4820-8C56-41EB6EDFDB81}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C1F9BC4-BADC-4820-8C56-41EB6EDFDB81}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C1F9BC4-BADC-4820-8C56-41EB6EDFDB81}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA9D42AD-8617-4227-850D-CE9E3634003A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA9D42AD-8617-4227-850D-CE9E3634003A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA9D42AD-8617-4227-850D-CE9E3634003A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA9D42AD-8617-4227-850D-CE9E3634003A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DE4254A4-A6C1-43D4-BB7D-8908AE09CB63}
+	EndGlobalSection
+EndGlobal

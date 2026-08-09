@@ -1,0 +1,93 @@
+﻿@page "/astro"
+
+@using SoulConnect.Models
+@using Microsoft.EntityFrameworkCore
+@inject SoulConnect.Data.AppDbContext DbContext
+
+<h1>Astrological Compatibility</h1>
+<h2>Calculate the Compatibility of Customers</h2>
+
+<div class="select-container">
+    <div class="select-group">
+        <select @onchange="OnCustomer1Changed">
+            <option value="">-- Select Customer --</option>
+            @foreach (var customer in customers)
+            {
+                <option value="@customer.Id">@($"{customer.Name} {customer.Surname}")</option>
+            }
+        </select>
+    </div>
+
+    <div class="select-group">
+        <select @onchange="OnCustomer2Changed">
+            <option value="">-- Select Customer --</option>
+            @foreach (var customer in customers)
+            {
+                <option value="@customer.Id">@($"{customer.Name} {customer.Surname}")</option>
+            }
+        </select>-
+    </div>
+</div>
+
+@if (customer1 != null && customer2 != null)
+{
+    <div>
+        <h3>@customer1.Name - @customer1.AstrologicalSign</h3>
+        <h3>@customer2.Name - @customer2.AstrologicalSign</h3>
+    </div>
+
+    <button @onclick="CalculateCompatibility" class="btn btn-primary">Calculate Compatibility</button>
+
+    @if (!string.IsNullOrEmpty(compatibility))
+    {
+        <div class="card centered-card">
+            <div class="card-header custom-header">
+                Astrological Compatibility
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">Compatibility Result</h5>
+                <p class="card-text"><strong>@compatibility</strong></p>
+            </div>
+        </div>
+    }
+
+
+}
+
+@code {
+    private List<Customer> customers = new();
+    private Customer? customer1;
+    private Customer? customer2;
+    private string compatibility = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        customers = await DbContext.Customers.ToListAsync();
+    }
+
+    private void OnCustomer1Changed(ChangeEventArgs e)
+    {
+        var selectedId = int.Parse(e.Value.ToString());
+        customer1 = customers.FirstOrDefault(c => c.Id == selectedId);
+        compatibility = string.Empty;  // Reset compatibility when customer is changed
+    }
+
+    private void OnCustomer2Changed(ChangeEventArgs e)
+    {
+        var selectedId = int.Parse(e.Value.ToString());
+        customer2 = customers.FirstOrDefault(c => c.Id == selectedId);
+        compatibility = string.Empty;  // Reset compatibility when customer is changed
+    }
+
+    private void CalculateCompatibility()
+    {
+        if (customer1 != null && customer2 != null)
+        {
+            compatibility = AstroCompatibility.CalculateCompatibility(customer1.AstrologicalSign, customer2.AstrologicalSign);
+        }
+        else
+        {
+            compatibility = "Please select both customers.";
+        }
+    }
+}

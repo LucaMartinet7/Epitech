@@ -1,0 +1,35 @@
+﻿@page "/Register"
+@layout Layout.EmptyLayout
+
+<PageTitle>Register</PageTitle>
+
+<body class="register">
+    <div class ="logbox">
+        <form action="">
+            <h1>Register</h1>
+            <div class="input-box">
+                <input type="text" placeholder="Username" required>
+                <i class='bx bxs-user' ></i>
+            </div>
+
+            <div class="input-box">
+                <input type="password" placeholder="Password" required>
+                <i class='bx bxs-lock-alt' ></i>
+            </div>
+
+            <div class="input-box">
+                <input type="password" placeholder="Confirm password" required>
+            </div>
+
+            <div class="forgot-remember">
+                <label><input type="checkbox"> Remember me</label>
+            </div>
+
+            <button type="submit" class="button">Login</button>
+
+            <div class="register-link">
+                <p>Already got an account? <a href="/Login">Login</a></p>
+            </div>
+        </form>
+    </div>
+</body>

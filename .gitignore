@@ -1,0 +1,36 @@
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store
+
+# Dependencies
+node_modules/
+vendor/
+.venv/
+venv/
+__pycache__/
+*.pyc
+
+# Haskell
+dist-newstyle/
+.stack-work/
+
+# C / C++ build output
+*.o
+*.a
+*.so
+*.gcda
+*.gcno
+*.d
+build/
+cmake-build-*/
+CMakeFiles/
+CMakeCache.txt
+
+# Binaries dropped by the mouli
+*.out
+a.out
+vgcore.*
+
+# Large generated test fixtures (regenerate locally if needed)
+tek1/sem1/CPE-BSQ/maps-intermediate*/mouli_maps*/intermediate_map_10000_10000

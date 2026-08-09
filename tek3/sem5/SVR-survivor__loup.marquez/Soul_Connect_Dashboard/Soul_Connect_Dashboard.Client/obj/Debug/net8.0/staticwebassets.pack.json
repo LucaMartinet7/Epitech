@@ -1,0 +1,41 @@
+{
+  "Files": [
+    {
+      "Id": "\\\\Mac\\Home\\Documents\\GitHub\\B-SVR-500-BER-5-1-survivor-loup.marquez\\Soul_Connect_Dashboard\\Soul_Connect_Dashboard.Client\\bin\\Debug\\net8.0\\wwwroot\\_framework\\blazor.webassembly.js",
+      "PackagePath": "staticwebassets\\_framework\\blazor.webassembly.js"
+    },
+    {
+      "Id": "\\\\Mac\\Home\\Documents\\GitHub\\B-SVR-500-BER-5-1-survivor-loup.marquez\\Soul_Connect_Dashboard\\Soul_Connect_Dashboard.Client\\obj\\Debug\\net8.0\\compressed\\2edigt58gb.gz",
+      "PackagePath": "staticwebassets\\_framework\\blazor.webassembly.js.gz"
+    },
+    {
+      "Id": "\\\\Mac\\Home\\Documents\\GitHub\\B-SVR-500-BER-5-1-survivor-loup.marquez\\Soul_Connect_Dashboard\\Soul_Connect_Dashboard.Client\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\Soul_Connect_Dashboard.Client.bundle.scp.css",
+      "PackagePath": "staticwebassets\\Soul_Connect_Dashboard.Client.bundle.scp.css"
+    },
+    {
+      "Id": "\\\\Mac\\Home\\Documents\\GitHub\\B-SVR-500-BER-5-1-survivor-loup.marquez\\Soul_Connect_Dashboard\\Soul_Connect_Dashboard.Client\\wwwroot\\appsettings.Development.json",
+      "PackagePath": "staticwebassets\\appsettings.Development.json"
+    },
+    {
+      "Id": "\\\\Mac\\Home\\Documents\\GitHub\\B-SVR-500-BER-5-1-survivor-loup.marquez\\Soul_Connect_Dashboard\\Soul_Connect_Dashboard.Client\\wwwroot\\appsettings.json",
+      "PackagePath": "staticwebassets\\appsettings.json"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.Soul_Connect_Dashboard.Client.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.Soul_Connect_Dashboard.Client.props",
+      "PackagePath": "build\\Soul_Connect_Dashboard.Client.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.Soul_Connect_Dashboard.Client.props",
+      "PackagePath": "buildMultiTargeting\\Soul_Connect_Dashboard.Client.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.Soul_Connect_Dashboard.Client.props",
+      "PackagePath": "buildTransitive\\Soul_Connect_Dashboard.Client.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

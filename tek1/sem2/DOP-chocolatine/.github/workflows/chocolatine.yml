@@ -1,0 +1,94 @@
+name: Chocolatine
+
+on:
+  push:
+    branches-ignore:
+      - 'ga-ignore-**'
+  pull_request:
+    branches-ignore:
+      - 'ga-ignore-**'
+
+env:
+  EXECUTABLES: "test"
+  MIRROR_URL: "git@github.com:EpitechPromo2027/B-DOP-200-PAR-2-2-chocolatine-luca.martinet.git"
+
+jobs:
+  check_coding_styles:
+    name: "Check coding styles"
+    runs-on: ubuntu-latest
+    container: ghcr.io/epitech/coding-style-checker:latest
+    steps:
+      - uses: actions/checkout@v3
+      - id: check_coding_style
+        run: |
+          check.sh $(pwd) $(pwd)
+          if [ ! -e coding-style-reports.log ]
+          then
+            exit 1
+          fi
+          SIZE=$(wc -c < coding-style-reports.log)
+          if [ $SIZE -eq 0 ]
+          then
+            exit 0
+          else
+            while IFS= read -r line
+            do
+              echo "::error::$line"
+            done < coding-style-reports.log
+            exit 1
+          fi
+
+  check_program_compilation:
+    name: "Check program compilation"
+    runs-on: ubuntu-latest
+    container:
+      image: epitechcontent/epitest-docker
+    steps:
+      - uses: actions/checkout@v3
+      - id: check_program_compilation
+        run: make
+        timeout-minutes: 2
+      - run: make clean
+      - run: |
+          for x in ${{ env.EXECUTABLES }};
+          do
+            if [ ! test -x ./$x ]
+            then
+              exit 84
+            fi
+          done
+
+  run_tests:
+    name: "Run tests"
+    runs-on: ubuntu-latest
+    container:
+      image: epitechcontent/epitest-docker
+    steps:
+      - uses: actions/checkout@v3
+      - id: run_tests
+        run: make tests_run
+        timeout-minutes: 2
+      - run: make clean
+      - run: |
+          if [ ! -e tests/units.xml ]
+          then
+            exit 84
+          fi
+          SIZE=$(wc -c < tests/units.xml)
+          if [ $SIZE -eq 0 ]
+          then
+            exit 84
+          fi
+
+  mirroring:
+    runs-on: ubuntu-latest
+    steps:                                              # <-- must use actions/checkout before mirroring!
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - uses: pixta-dev/repository-mirroring-action@v1
+        with:
+          target_repo_url:
+            ${{ env.MIRROR_URL }}
+          ssh_private_key:                              # <-- use 'secrets' to pass credential information.
+            ${{ secrets.GIT_SSH_PRIVATE_KEY }}

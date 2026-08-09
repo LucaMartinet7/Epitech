@@ -1,0 +1,74 @@
+/* Components/Pages/Astro.razor.css */
+h1 {
+    color: #323232;
+    font-size: 2em;
+    text-align: center;
+    margin-top: 60px;
+}
+
+h2 {
+    color: #e84e4e;
+    font-size: 1.5em;
+    text-align: center;
+}
+
+h3 {
+    text-align: center;
+}
+
+button {
+    display: flex;
+    margin: 0 auto;
+    margin-top: 30px;
+    font-size: larger;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    background-color: #e84e4e;
+    cursor: pointer;
+}
+
+    button:disabled {
+        background-color: #ccc;
+        cursor: not-allowed;
+    }
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50vh;
+}
+
+.select-container {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-top: 30px;
+}
+
+.select-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.centered-card {
+    max-width: 500px;
+    margin: 50px auto; /* Centers the card horizontally and adds some vertical spacing */
+    padding: 20px;
+}
+
+.card {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Add some shadow for a slight 3D effect */
+    border-radius: 10px; /* Optional: Rounded corners for a modern look */
+}
+
+.card-header.custom-header {
+    background-color: #e84e4e; /* Custom color for the card header */
+    color: white; /* Ensure text is readable on the red background */
+}
+
+.error {
+    color: red;
+}

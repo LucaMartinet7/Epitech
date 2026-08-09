@@ -1,0 +1,96 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.content {
+    flex-grow: 1;
+    padding: 20px;
+    max-width: 100%;
+}
+
+h1 {
+    font-size: 40px;
+    padding-top: 10px;
+}
+
+#map {
+    width: 45%; /* Adjusted to match event-list width */
+    height: 600px; /* Consistent height with event-list */
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    float: left;
+    margin-right: 20px;
+    min-height: 400px; /* Ensure minimum height */
+}
+
+.event-list {
+    width: 45%; /* Same width as map */
+    height: 600px; /* Same height as map */
+    overflow-y: auto;
+    min-height: 400px; /* Ensure minimum height */
+}
+
+.event-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+    .event-card h3 {
+        margin-top: 0;
+    }
+
+    .event-card p {
+        margin: 5px 0;
+    }
+
+.fa-map-marker {
+    color: red;
+}
+
+.horizontal-bar {
+    display: block;
+    width: calc(45% + 45% + 20px); /* Adjusted width to fit the layout */
+    height: 2px;
+    background-color: #323232;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    margin-bottom: 40px;
+    clear: both;
+}
+
+@media (max-width: 768px) {
+    #map, .event-list {
+        width: 100%;
+        height: auto;
+        margin-right: 0;
+    }
+}
+
+.marker {
+    background-image: url('https://docs.mapbox.com/demos/custom-markers-gl-js/mapbox-icon.png');
+    background-size: cover;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.mapboxgl-popup {
+    max-width: 200px;
+}
+
+.mapboxgl-popup-content {
+    text-align: center;
+    font-family: 'Open Sans', sans-serif;
+}

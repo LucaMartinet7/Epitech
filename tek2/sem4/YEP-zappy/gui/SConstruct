@@ -1,0 +1,27 @@
+#!/usr/bin/env python
+
+import os
+import sys
+import platform
+
+env = SConscript("godot-cpp/SConstruct")
+
+arch = platform.machine()
+
+env.Append(CPPPATH=["src/"])
+sources = Glob("src/*.cpp")
+
+if env["platform"] == "linux":
+    library = env.SharedLibrary(
+        "demo/bin/libgdexample.{}.{}.{}.so".format(
+            env["platform"], env["target"], arch
+        ),
+        source=sources,
+    )
+else:
+    library = env.SharedLibrary(
+        "demo/bin/libgdexample{}.{}.so".format(env["suffix"], arch),
+        source=sources,
+    )
+
+Default(library)

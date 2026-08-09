@@ -1,0 +1,136 @@
+@page "/wardrobe"
+@using SoulConnect.Models
+@using SoulConnect.Services
+@using Microsoft.EntityFrameworkCore
+@inject SoulConnect.Data.AppDbContext DbContext
+
+<PageTitle>Wardrobe</PageTitle>
+
+
+<div class="outfit-container">
+    <div class="section">
+        <button class="arrow" onclick="prevItem('hat')">◀</button>
+        <div id="hat" class="item">
+            <img id="hatImage" src="" alt="Hat">
+        </div>
+        <button class="arrow" onclick="nextItem('hat')">▶</button>
+    </div>
+
+    <div class="section">
+        <button class="arrow" onclick="prevItem('chest')">◀</button>
+        <div id="chest" class="item">
+            <img id="chestImage" src="" alt="Chest">
+        </div>
+        <button class="arrow" onclick="nextItem('chest')">▶</button>
+    </div>
+
+    <div class="section">
+        <button class="arrow" onclick="prevItem('pants')">◀</button>
+        <div id="pants" class="item">
+            <img id="pantsImage" src="" alt="Pants">
+        </div>
+        <button class="arrow" onclick="nextItem('pants')">▶</button>
+    </div>
+
+    <div class="section">
+        <button class="arrow" onclick="prevItem('shoes')">◀</button>
+        <div id="shoes" class="item">
+            <img id="shoesImage" src="" alt="Shoes">
+        </div>
+        <button class="arrow" onclick="nextItem('shoes')">▶</button>
+    </div>
+</div>
+
+<script>
+    let clothes = [];
+
+    @foreach (var clothe in MyClotheList)
+    {
+        <text>
+                clothes.push({
+                    id: @clothe.Id,
+                type: '@clothe.Type',
+                imagePath: '/images/clothes/' + @clothe.Id + '.jpg'
+                            });
+        </text>
+    }
+
+        let hats = [];
+    let chests = [];
+    let pants = [];
+    let shoes = [];
+
+    let currentIndex = {
+        hat: 0,
+        chest: 0,
+        pants: 0,
+        shoes: 0
+    };
+
+    function classifyClothes() {
+        clothes.forEach(item => {
+            switch (item.type) {
+                case 'hat':
+                    hats.push(item.imagePath);
+                    break;
+                case 'chest':
+                    chests.push(item.imagePath);
+                    break;
+                case 'pants':
+                    pants.push(item.imagePath);
+                    break;
+                case 'shoes':
+                    shoes.push(item.imagePath);
+                    break;
+            }
+        });
+
+        if (hats.length > 0) document.getElementById('hatImage').src = hats[0];
+        if (chests.length > 0) document.getElementById('chestImage').src = chests[0];
+        if (pants.length > 0) document.getElementById('pantsImage').src = pants[0];
+        if (shoes.length > 0) document.getElementById('shoesImage').src = shoes[0];
+    }
+
+    window.onload = classifyClothes;
+
+    function nextItem(category) {
+        if (category === 'hat') {
+            currentIndex.hat = (currentIndex.hat + 1) % hats.length;
+            document.getElementById('hatImage').src = hats[currentIndex.hat];
+        } else if (category === 'chest') {
+            currentIndex.chest = (currentIndex.chest + 1) % chests.length;
+            document.getElementById('chestImage').src = chests[currentIndex.chest];
+        } else if (category === 'pants') {
+            currentIndex.pants = (currentIndex.pants + 1) % pants.length;
+            document.getElementById('pantsImage').src = pants[currentIndex.pants];
+        } else if (category === 'shoes') {
+            currentIndex.shoes = (currentIndex.shoes + 1) % shoes.length;
+            document.getElementById('shoesImage').src = shoes[currentIndex.shoes];
+        }
+    }
+
+    function prevItem(category) {
+        if (category === 'hat') {
+            currentIndex.hat = (currentIndex.hat - 1 + hats.length) % hats.length;
+            document.getElementById('hatImage').src = hats[currentIndex.hat];
+        } else if (category === 'chest') {
+            currentIndex.chest = (currentIndex.chest - 1 + chests.length) % chests.length;
+            document.getElementById('chestImage').src = chests[currentIndex.chest];
+        } else if (category === 'pants') {
+            currentIndex.pants = (currentIndex.pants - 1 + pants.length) % pants.length;
+            document.getElementById('pantsImage').src = pants[currentIndex.pants];
+        } else if (category === 'shoes') {
+            currentIndex.shoes = (currentIndex.shoes - 1 + shoes.length) % shoes.length;
+            document.getElementById('shoesImage').src = shoes[currentIndex.shoes];
+        }
+    }
+</script>
+
+@code {
+    private List<Clothe> MyClotheList = new List<Clothe>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        MyClotheList = await DbContext.Clothes.ToListAsync();
+    }
+}

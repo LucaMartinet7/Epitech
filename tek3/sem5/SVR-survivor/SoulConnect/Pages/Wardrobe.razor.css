@@ -1,0 +1,62 @@
+/* Main container */
+.container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Ensures full viewport height */
+    justify-content: center;
+    align-items: center;
+    margin-left: 250px; /* Adjust based on your sidebar or layout */
+    padding: 20px;
+    width: calc(100% - 250px); /* Calculates the width if you have a sidebar with 250px width */
+}
+
+/* Section to align each set of images and arrows */
+.section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 12vh 0; /* Adds spacing between sections */
+}
+
+/* Image size adjustment */
+.item img {
+    width: 9vw; /* 9% of the viewport width */
+    height: auto; /* Maintain aspect ratio */
+    max-height: 15vh; /* Max height for images */
+    object-fit: contain; /* Ensures images fit well within the container */
+}
+
+/* Style for the navigation arrows */
+.arrow {
+    background-color: #ccc;
+    border: none;
+    font-size: 2rem;
+    padding: 10px;
+    cursor: pointer;
+    margin: 0 6vw;
+    transition: background-color 0.3s ease;
+}
+
+    /* Hover effect on the arrows */
+    .arrow:hover {
+        background-color: #aaa;
+    }
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+    .container {
+        margin-left: 0; /* Remove left margin for smaller screens */
+        width: 100%; /* Ensure full width on smaller devices */
+        padding: 10px; /* Reduce padding */
+    }
+
+    .arrow {
+        margin: 0 4vw; /* Decrease margin for smaller screens */
+        font-size: 1.5rem; /* Slightly smaller arrows on small screens */
+    }
+
+    .item img {
+        width: 15vw; /* Increase image width on smaller screens */
+        max-height: 10vh; /* Adjust height to fit better */
+    }
+}

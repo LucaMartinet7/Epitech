@@ -1,0 +1,72 @@
+﻿@inject NavigationManager NavigationManager;
+
+<div class="nav-scrollable">
+    <nav class="flex-column">
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
+            </NavLink>
+        </div>
+
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="coaches">
+                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Coaches
+            </NavLink>
+        </div>
+
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="customers">
+                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Customers
+            </NavLink>
+        </div>
+
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="/stats" @onclick="HandleClick">
+                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Statistics
+            </NavLink>
+        </div>
+
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="tips">
+                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Tips
+            </NavLink>
+        </div>
+
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="events">
+                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Events
+            </NavLink>
+        </div>
+
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="astro">
+                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Astrological Compatibility
+            </NavLink>
+        </div>
+
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="wardrobe">
+                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Wardrobe
+            </NavLink>
+        </div>
+        <div class="logout">
+            <NavLink class="logoutbutton" @onclick="Logout">
+                Logout
+            </NavLink>
+        </div>
+
+
+    </nav>
+</div>
+
+@code {
+    private void HandleClick()
+    {
+        NavigationManager.NavigateTo("stats", true);
+    }
+    
+    private void Logout()
+    {
+        NavigationManager.NavigateTo("/Login");
+    }
+}

@@ -1,0 +1,190 @@
+﻿@page "/"
+@using SoulConnect.Models
+@using SoulConnect.Services
+@using Microsoft.EntityFrameworkCore
+@using Syncfusion.Blazor.Charts
+@inject SoulConnect.Data.AppDbContext DbContext
+
+
+<PageTitle>Home</PageTitle>
+
+<header class="home">
+    <h1> SOUL CONNECTION </h1>
+    <h2> Dashboard </h2>
+    <hr />
+</header>
+
+
+<body class="home_body">
+    <div class="container">
+        <div class="chart-box">
+            <SfChart Title="Top 5 Employees by Number of Events" Background="transparent">
+                <ChartPrimaryXAxis Title="" ValueType="Syncfusion.Blazor.Charts.ValueType.Category"></ChartPrimaryXAxis>
+                <ChartPrimaryYAxis Title=""></ChartPrimaryYAxis>
+                <ChartTooltipSettings Enable="true"></ChartTooltipSettings>
+                <ChartLegendSettings Visible="true"></ChartLegendSettings>
+                <ChartSeriesCollection>
+                    <ChartSeries DataSource="@TopEmployees" Name="Employees" XName="Name" YName="EventCount" Type="ChartSeriesType.Bar">
+                    </ChartSeries>
+                </ChartSeriesCollection>
+            </SfChart>
+        </div>
+        <div class="chart-box">
+            <SfAccumulationChart EnableBorderOnMouseMove="false" Title="Rating Distribution" EnableAnimation="true" Background="transparent">
+                <AccumulationChartTooltipSettings Header="" Format="<b>${point.x}</b><br>Count: <b>${point.y}</b>" Enable="true"></AccumulationChartTooltipSettings>
+                <AccumulationChartLegendSettings Visible="true"></AccumulationChartLegendSettings>
+                <AccumulationChartSeriesCollection>
+                    <AccumulationChartSeries DataSource="@Ratings" XName="Rating" YName="Count" Radius="70%" Name="Rating" StartAngle="0"
+                                             InnerRadius="40%" ExplodeIndex="0" Explode="true" ExplodeOffset="10%">
+                        <AccumulationDataLabelSettings Visible="true" Position="AccumulationLabelPosition.Outside">
+                            <AccumulationChartDataLabelFont Size="12px" FontWeight="600"></AccumulationChartDataLabelFont>
+                            <AccumulationChartConnector Length="10px" Type="ConnectorType.Curve"></AccumulationChartConnector>
+                        </AccumulationDataLabelSettings>
+                    </AccumulationChartSeries>
+                </AccumulationChartSeriesCollection>
+            </SfAccumulationChart>
+        </div>
+        <div class="chart-box">
+            <SfChart Title="Payments by Month" Background="transparent">
+                <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+                <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category" LabelRotation="45">
+                    <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+                    <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+                    <ChartAxisLineStyle Width="1"></ChartAxisLineStyle>
+                </ChartPrimaryXAxis>
+                <ChartPrimaryYAxis Title="Total Amount" LabelFormat="€{value}" Minimum="0">
+                    <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+                    <ChartAxisMinorTickLines Width="0"></ChartAxisMinorTickLines>
+                    <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+                </ChartPrimaryYAxis>
+                <ChartSeriesCollection>
+                    <ChartSeries DataSource="@PaymentsByMonth" Name="Payments" XName="Month" YName="TotalAmount" Type="ChartSeriesType.Line">
+                        <ChartMarker Visible="true" IsFilled="true" Height="7" Width="7"></ChartMarker>
+                        <ChartTrendlines>
+                            <ChartTrendline Type="TrendlineTypes.Linear" EnableTooltip="false" Width="3" Name="Trend Line" Fill="#C64A75"></ChartTrendline>
+                        </ChartTrendlines>
+                    </ChartSeries>
+                </ChartSeriesCollection>
+                <ChartLegendSettings Visible="true"></ChartLegendSettings>
+                <ChartTooltipSettings Enable="true"></ChartTooltipSettings>
+            </SfChart>
+        </div>
+    </div>
+
+    <main class="table_body">
+        <section class="table_header">
+            <h1>Main Informations</h1>
+        </section>
+
+        <section class="table_core">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Age</th>
+                        <th>Customer Name</th>
+                        <th>Astrological Sign</th>
+                        <th>Gender</th>
+                        <th>Email Address</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (customers == null)
+                    {
+                        <tr><td colspan="5">Loading...</td></tr>
+                    }
+                    else if (!customers.Any())
+                    {
+                        <tr><td colspan="5">No customers found.</td></tr>
+                    }
+                    else
+                    {
+                        @foreach (var customer in customers)
+                        {
+                            <tr>
+                                <td>@CalculateAge(customer.BirthDate)</td>
+                                <td>@customer.Name @customer.Surname</td>
+                                <td>@customer.AstrologicalSign</td>
+                                <td>@customer.Gender</td>
+                                <td>@customer.Email</td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </section>
+    </main>
+</body>
+
+@code {
+    private List<Customer> customers;
+    private List<dynamic> TopEmployees = new List<dynamic>();
+    private List<dynamic> Ratings = new List<dynamic>();
+    private List<dynamic> PaymentsByMonth = new List<dynamic>();
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            customers = await DbContext.Customers.ToListAsync();
+
+            var topEmployeesQuery = await DbContext.Events
+                .GroupBy(e => e.EmployeeId)
+                .Select(g => new
+                {
+                    EmployeeId = g.Key,
+                    EventCount = g.Count(),
+                })
+                .OrderByDescending(x => x.EventCount)
+                .Take(5)
+                .ToListAsync();
+
+            var topEmployeeNames = topEmployeesQuery.Join(DbContext.Employees,
+                te => te.EmployeeId,
+                e => e.Id,
+                (te, e) => new { e.Id, e.Name, te.EventCount })
+                .ToList();
+
+            TopEmployees = topEmployeeNames.Select(e => new { e.Id, e.Name, e.EventCount }).ToList<dynamic>();
+
+            var ratingsQuery = await DbContext.Encounters
+                .GroupBy(e => e.Rating)
+                .Select(g => new
+                {
+                    Rating = g.Key,
+                    Count = g.Count()
+                })
+                .OrderBy(r => r.Rating)
+                .ToListAsync();
+
+            Ratings = ratingsQuery.Select(r => new { Rating = r.Rating.ToString() + " Star", Count = r.Count }).ToList<dynamic>();
+
+            var paymentsByMonth = await DbContext.PaymentHistories
+                .Where(p => p.Date.HasValue)
+                .GroupBy(p => new { p.Date.Value.Year, p.Date.Value.Month })
+                .Select(g => new
+                {
+                    Year = g.Key.Year,
+                    Month = g.Key.Month,
+                    TotalAmount = g.Sum(p => p.Amount)
+                })
+                .OrderBy(p => p.Year).ThenBy(p => p.Month)
+                .ToListAsync();
+
+            PaymentsByMonth = paymentsByMonth.Select(p => new
+            {
+                Month = $"{p.Year}-{p.Month:00}",
+                TotalAmount = p.TotalAmount
+            }).ToList<dynamic>();
+
+            StateHasChanged();
+        }
+    }
+
+     private int CalculateAge(DateTime birthDate)
+    {
+        var today = DateTime.Today;
+        var age = today.Year - birthDate.Year;
+        if (birthDate.Date > today.AddYears(-age)) age--;
+        return age;
+    }
+}

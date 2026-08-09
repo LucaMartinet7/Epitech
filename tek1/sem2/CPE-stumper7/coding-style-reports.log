@@ -1,0 +1,2 @@
+./Makefile:46: illegal token in column 15, giving up (hint: fix the file or remove it from the working set)
+./src/printer.c:22: MAJOR:C-C1

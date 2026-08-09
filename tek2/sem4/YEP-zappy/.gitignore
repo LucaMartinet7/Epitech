@@ -1,0 +1,5 @@
+.vscode
+coding-style-reports.log
+test/*
+AI  = python3 ai_cli.py  <server_port> <team_name> <server_ip>
+sfml/test*
